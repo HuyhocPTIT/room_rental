@@ -1,4 +1,7 @@
 package com.example.roomrental.constant;
 
-public class UserRole {
+public enum UserRole {
+    ADMIN,
+    TENANT,
+    LANDLORD
 }
