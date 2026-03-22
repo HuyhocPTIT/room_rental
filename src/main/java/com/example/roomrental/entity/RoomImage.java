@@ -1,18 +1,20 @@
 package com.example.roomrental.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = "RomImage")
+@Table(name = "room_images")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoomImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId;
+    private Long id;
 
     private String imageUrl;
 

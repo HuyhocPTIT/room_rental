@@ -1,18 +1,20 @@
 package com.example.roomrental.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = "Location")
+@Table(name = "locations")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long locationId;
+    private Long id;
 
     private String city;
     private String district;

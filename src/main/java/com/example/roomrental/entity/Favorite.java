@@ -1,15 +1,16 @@
 package com.example.roomrental.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Favorite")
+@Table(name = "favorites")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Favorite {
 
     @Id
@@ -17,6 +18,10 @@ public class Favorite {
     private Long id;
 
     private LocalDateTime createdAt;
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     @ManyToOne
     @JoinColumn(name = "user_id")
