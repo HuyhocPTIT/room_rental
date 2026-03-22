@@ -1,19 +1,23 @@
 package com.example.roomrental.entity;
 
+import com.example.roomrental.constant.PostStatus;
+import com.example.roomrental.constant.RoomCategory;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "RoomPost")
+@Table(name = "room_posts")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoomPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     private String title;
     private String description;
@@ -21,17 +25,17 @@ public class RoomPost {
     private String address;
     private String phoneContact;
     private String zaloContact;
-    private enum status {
-        active,
-        hidden,
-        expried
-    };
+
+    @Enumerated(EnumType.STRING)
+    private PostStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private RoomCategory category;
+
     private LocalDateTime createdAt;
-    private enum roomCategory {
-        Apartment,
-        House,
-        Villa,
-        Other
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 
     // Quan hệ với User
@@ -42,4 +46,10 @@ public class RoomPost {
     @ManyToOne
     @JoinColumn(name = "location_id")
     private Location location;
+
+    @OneToMany(mappedBy = "roomPost")
+    private List<RoomImage> roomImages;
+
+    @OneToMany(mappedBy = "roomPost")
+    private List<Favorite> favorites;
 }

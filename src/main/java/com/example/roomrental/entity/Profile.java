@@ -1,19 +1,19 @@
 package com.example.roomrental.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Table(name = "Profile")
+@Table(name = "profiles")
 @Getter
 @Setter
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long profileId;
+    private Long id;
 
     private String avatar;
     private String name;
