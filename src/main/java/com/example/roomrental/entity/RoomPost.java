@@ -25,6 +25,11 @@ public class RoomPost {
     private String address;
     private String phoneContact;
     private String zaloContact;
+    
+    private float area; // Diện tích m2
+    private int bedrooms; // Số phòng ngủ
+    private int bathrooms; // Số phòng tắm
+    private String utilities; // Tiện ích (máy lạnh, wifi, etc)
 
     @Enumerated(EnumType.STRING)
     private PostStatus status;
@@ -33,9 +38,17 @@ public class RoomPost {
     private RoomCategory category;
 
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    
     @PrePersist
     private void prePersist() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+    
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
     }
 
     // Quan hệ với User
