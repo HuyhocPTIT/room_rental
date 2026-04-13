@@ -1,4 +1,4 @@
-package com.nhom.fooddelivery.config;
+package com.example.roomrental.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
