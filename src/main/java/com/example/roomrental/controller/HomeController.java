@@ -1,25 +1,33 @@
 package com.example.roomrental.controller;
 
+import com.example.roomrental.entity.RoomPost;
+import com.example.roomrental.service.RoomPostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
 @Controller
 public class HomeController {
 
-    // Ánh xạ đường dẫn gốc "/" (Trang chủ)
-    @GetMapping("/")
-    public String home(Model model) {
-        /* * Sau này, bạn sẽ gọi RoomPostService ở đây để lấy dữ liệu từ Database.
-         * Ví dụ:
-         * List<RoomPost> featuredRooms = roomPostService.getFeaturedRooms();
-         * model.addAttribute("featuredRooms", featuredRooms);
-         * * List<RoomPost> newestRooms = roomPostService.getNewestRooms();
-         * model.addAttribute("newestRooms", newestRooms);
-         */
+    @Autowired
+    private RoomPostService roomPostService;
 
-        // Trả về tên file jsp (không cần đuôi .jsp).
-        // Dựa vào cấu hình trong application.properties, Spring sẽ tự tìm file ở /WEB-INF/views/index.jsp
+    @GetMapping("/")
+    public String home(@RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "6") int size,
+                       Model model) {
+        Page<RoomPost> roomPage = roomPostService.getActivePosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        model.addAttribute("roomPosts", roomPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", roomPage.getTotalPages());
         return "index";
     }
 }
