@@ -8,6 +8,9 @@
     <title><c:out value="${empty pageTitle ? 'RoomRental - Tìm phòng trọ dễ dàng' : pageTitle}" /></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="<c:url value='/css/style.css'/>" rel="stylesheet">
+    <c:if test="${not empty pageSpecificCss}">
+        <link href="<c:url value='${pageSpecificCss}'/>" rel="stylesheet">
+    </c:if>
 </head>
 <body class="${empty bodyClass ? '' : bodyClass}">
 <nav class="site-nav">
