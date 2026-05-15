@@ -1,4 +1,4 @@
-package com.example.roomrental.entity;
+gitpackage com.example.roomrental.entity;
 
 import com.example.roomrental.constant.PostStatus;
 import com.example.roomrental.constant.RoomCategory;
