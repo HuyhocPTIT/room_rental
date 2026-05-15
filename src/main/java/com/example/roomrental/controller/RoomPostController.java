@@ -1,7 +1,7 @@
 package com.example.roomrental.controller;
 
-import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.constant.RoomCategory;
+import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.service.RoomPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

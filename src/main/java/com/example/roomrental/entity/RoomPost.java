@@ -1,9 +1,12 @@
-gitpackage com.example.roomrental.entity;
+package com.example.roomrental.entity;
 
 import com.example.roomrental.constant.PostStatus;
 import com.example.roomrental.constant.RoomCategory;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;

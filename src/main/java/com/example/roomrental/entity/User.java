@@ -2,10 +2,13 @@ package com.example.roomrental.entity;
 
 import com.example.roomrental.constant.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
-
-import lombok.*;
 
 @Entity
 @Table(name = "users")
