@@ -306,13 +306,17 @@ body {
     color: #fff;
 }
 
-.home-page .cards {
+.home-page .cards,
+.favorites-page .cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.home-page .card {
+.home-page .card,
+.favorites-page .card {
     overflow: hidden;
     border: 1px solid #eee;
     border-radius: 14px;
@@ -321,12 +325,14 @@ body {
     transition: transform .2s, box-shadow .2s;
 }
 
-.home-page .card:hover {
+.home-page .card:hover,
+.favorites-page .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, .10);
 }
 
-.home-page .card-img {
+.home-page .card-img,
+.favorites-page .card-img {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -338,7 +344,8 @@ body {
     font-weight: 800;
 }
 
-.home-page .save-btn {
+.home-page .save-btn,
+.favorites-page .save-btn {
     position: absolute;
     top: 12px;
     right: 12px;
@@ -350,26 +357,31 @@ body {
     z-index: 10;
 }
 
-.home-page .save-btn svg {
+.home-page .save-btn svg,
+.favorites-page .save-btn svg {
     fill: rgba(0, 0, 0, 0.4);
     stroke: #fff;
     transition: fill 0.2s, transform 0.2s;
 }
 
-.home-page .save-btn:hover svg {
+.home-page .save-btn:hover svg,
+.favorites-page .save-btn:hover svg {
     transform: scale(1.1);
 }
 
-.home-page .save-btn.saved svg {
+.home-page .save-btn.saved svg,
+.favorites-page .save-btn.saved svg {
     fill: #ff385c;
     stroke: #fff;
 }
 
-.home-page .card-body {
+.home-page .card-body,
+.favorites-page .card-body {
     padding: 14px 16px;
 }
 
-.home-page .card-title {
+.home-page .card-title,
+.favorites-page .card-title {
     margin-bottom: 4px;
     overflow: hidden;
     color: #1a1a1a;
@@ -379,26 +391,30 @@ body {
     white-space: nowrap;
 }
 
-.home-page .card-addr {
+.home-page .card-addr,
+.favorites-page .card-addr {
     margin-bottom: 10px;
     color: #999;
     font-size: 12px;
 }
 
-.home-page .card-row {
+.home-page .card-row,
+.favorites-page .card-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
 }
 
-.home-page .card-price {
+.home-page .card-price,
+.favorites-page .card-price {
     color: #e35d2b;
     font-size: 16px;
     font-weight: 800;
 }
 
-.home-page .card-tag {
+.home-page .card-tag,
+.favorites-page .card-tag {
     padding: 3px 8px;
     border-radius: 6px;
     background: #fff5f0;
@@ -407,7 +423,8 @@ body {
     font-weight: 600;
 }
 
-.home-page .card-meta {
+.home-page .card-meta,
+.favorites-page .card-meta {
     display: flex;
     gap: 10px;
     margin-top: 8px;
