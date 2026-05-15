@@ -28,7 +28,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Convert(converter = com.example.roomrental.constant.UserRoleConverter.class)
     private UserRole role;
 
     private LocalDateTime createdAt;

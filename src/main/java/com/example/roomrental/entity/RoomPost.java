@@ -25,7 +25,6 @@ public class RoomPost {
     private String title;
     private String description;
     private float price;
-    private float area;
     private String address;
     private String phoneContact;
     private String zaloContact;
