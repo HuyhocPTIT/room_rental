@@ -25,6 +25,7 @@ public class RoomPost {
     private String title;
     private String description;
     private float price;
+    private float area;
     private String address;
     private String phoneContact;
     private String zaloContact;
@@ -63,7 +64,7 @@ public class RoomPost {
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @OneToMany(mappedBy = "roomPost")
+    @OneToMany(mappedBy = "roomPost", fetch = FetchType.EAGER)
     private List<RoomImage> roomImages;
 
     @OneToMany(mappedBy = "roomPost")

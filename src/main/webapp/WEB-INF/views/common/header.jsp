@@ -5,45 +5,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Quản lý Phòng trọ Sinh viên</title>
-
+    <title><c:out value="${empty pageTitle ? 'RoomRental - Tìm phòng trọ dễ dàng' : pageTitle}" /></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link href="<c:url value='/css/style.css'/>" rel="stylesheet">
 </head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="<c:url value='/'/>">🏠 RoomRental</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="<c:url value='/'/>">Trang chủ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value='/rooms'/>">Phòng mới đăng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#search-section">Tìm kiếm</a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav">
-                <li class="nav-item me-2">
-                    <a class="btn btn-outline-primary" href="<c:url value='/auth/login'/>">Đăng nhập</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-primary" href="<c:url value='/auth/register'/>">Đăng ký</a>
-                </li>
-            </ul>
-        </div>
+<body class="${empty bodyClass ? '' : bodyClass}">
+<nav class="site-nav">
+    <a class="site-logo" href="<c:url value='/'/>">Trọ<span>Tốt</span></a>
+    <ul class="site-nav-links">
+        <li><a href="<c:url value='/'/>">Tìm phòng</a></li>
+        <li><a href="<c:url value='/'/>#featured-rooms">Phòng nổi bật</a></li>
+        <li><a href="<c:url value='/'/>#features">Tiện ích</a></li>
+        <li><a href="<c:url value='/'/>#contact">Liên hệ</a></li>
+    </ul>
+    <div class="site-nav-actions" style="display: flex; align-items: center; gap: 12px;">
+        <a href="<c:url value='/favorites'/>" style="text-decoration: none; font-weight: 500; color: #333;">
+            ❤️ Phòng đã lưu
+        </a>
+        <c:choose>
+            <c:when test="${not empty sessionScope.currentUser}">
+                <span class="site-user">Xin chào, <strong>${sessionScope.currentUser.username}</strong></span>
+                <form action="<c:url value='/auth/logout'/>" method="post" class="m-0">
+                    <button type="submit" class="site-btn site-btn-outline">Đăng xuất</button>
+                </form>
+            </c:when>
+            <c:otherwise>
+                <a class="site-btn site-btn-outline" href="<c:url value='/auth/login'/>">Đăng nhập</a>
+                <a class="site-btn" href="<c:url value='/auth/register'/>">Đăng ký</a>
+            </c:otherwise>
+        </c:choose>
+        <a class="site-btn" href="<c:url value='/post-room'/>" style="background-color: #ff385c; border-color: #ff385c; color: white;">Đăng tin</a>
     </div>
 </nav>
-
-<main class="container my-4">
+<main class="${empty mainClass ? 'container my-4' : mainClass}">

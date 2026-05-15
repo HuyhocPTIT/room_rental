@@ -1,4 +1,4 @@
-package com.nhom.fooddelivery.config;
+package com.example.roomrental.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -12,6 +12,9 @@ public class WebConfig implements WebMvcConfigurer {
         // Cấu hình đường dẫn cho CSS
         registry.addResourceHandler("/css/**")
                 .addResourceLocations("classpath:/static/css/");
+
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("classpath:/static/js/");
 
         // Cấu hình đường dẫn cho IMAGES: Kết hợp Classpath và File vật lý
         registry.addResourceHandler("/images/**")

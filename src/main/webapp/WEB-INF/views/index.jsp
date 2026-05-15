@@ -1,198 +1,165 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thuê Phòng Trọ - RoomRental</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <style>
-        :root {
-            --primary-color: #FF6B35;
-            --secondary-color: #004E89;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-        }
-        
-        .navbar {
-            background-color: white !important;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .navbar-brand {
-            font-size: 1.5rem;
-            color: var(--primary-color) !important;
-            font-weight: 700;
-        }
-        
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 60px 0;
-            margin-bottom: 40px;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-        }
-        
-        .search-form {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-top: -50px;
-            position: relative;
-            z-index: 10;
-            margin-bottom: 40px;
-        }
-        
-        .search-form input,
-        .search-form select {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 12px;
-        }
-        
-        .search-form button {
-            background-color: var(--primary-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            color: var(--secondary-color);
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 4px;
-            background-color: var(--primary-color);
-            border-radius: 2px;
-        }
-        
-        .room-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            background: white;
-            height: 100%;
-        }
-        
-        .room-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .room-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .room-card-body {
-            padding: 15px;
-        }
-        
-        .room-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-            min-height: 2.2em;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .room-price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-        
-        .room-info {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #666;
-        }
-        
-        .room-location {
-            color: #999;
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-        }
-        
-        .room-card-footer {
-            padding: 10px 0;
-            border-top: 1px solid #f0f0f0;
-        }
-        
-        .btn-view {
-            background-color: var(--primary-color);
-            border: none;
-            width: 100%;
-            color: white;
-            padding: 8px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 600;
-            display: block;
-            text-align: center;
-        }
-        
-        .btn-view:hover {
-            background-color: #E55A2B;
-            text-decoration: none;
-            color: white;
-        }
-        
-        footer {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 40px 0 20px;
-            margin-top: 60px;
-        }
-    </style>
-</head>
-<body>
+<c:set var="pageTitle" value="TrọTốt - Tìm phòng trọ dễ dàng" scope="request" />
+<c:set var="bodyClass" value="home-page" scope="request" />
+<c:set var="mainClass" value="home-main" scope="request" />
 <jsp:include page="common/header.jsp" />
-
-<div class="hero">
-    <div class="container">
-        <h1><i class="bi bi-house-heart"></i> Tìm Phòng Trọ Lý Tưởng</h1>
-        <p>Hàng nghìn phòng chất lượng với giá cả hợp lý - Tìm kiếm dễ dàng, thuê nhanh chóng</p>
+<section class="hero">
+    <h1>Tìm <span>phòng trọ</span> ưng ý<br>chỉ trong vài giây</h1>
+    <p>Hàng nghìn phòng trọ, căn hộ mini tại Việt Nam - cập nhật mỗi ngày</p>
+    <div class="search-box">
+        <select id="sel-tinh">
+            <option value="">📍 Tỉnh / Thành phố</option>
+            <option>Hà Nội</option>
+            <option>TP. Hồ Chí Minh</option>
+            <option>Đà Nẵng</option>
+            <option>Cần Thơ</option>
+            <option>Hải Phòng</option>
+            <option>Phú Thọ</option>
+        </select>
+        <select id="sel-gia">
+            <option value="">💰 Mức giá</option>
+            <option>Dưới 1 triệu</option>
+            <option>1 - 2 triệu</option>
+            <option>2 - 3 triệu</option>
+            <option>3 - 5 triệu</option>
+            <option>Trên 5 triệu</option>
+        </select>
+        <select id="sel-loai">
+            <option value="">🏠 Loại phòng</option>
+            <option>Phòng trọ</option>
+            <option>Căn hộ mini</option>
+            <option>Chung cư</option>
+            <option>Nhà nguyên căn</option>
+        </select>
+        <button class="search-btn" type="button">🔍 Tìm ngay</button>
     </div>
+</section>
+
+<section id="featured-rooms">
+    <h2>Phòng nổi bật <span class="tag-moi">Mới</span></h2>
+    <p class="subtitle">Được cập nhật và xác minh bởi đội ngũ TrọTốt</p>
+    <div class="cats" id="cats">
+        <div class="cat active" onclick="filterRooms('all', this)">Tất cả</div>
+        <div class="cat" onclick="filterRooms('phongtro', this)">Phòng trọ</div>
+        <div class="cat" onclick="filterRooms('mini', this)">Căn hộ mini</div>
+        <div class="cat" onclick="filterRooms('chungcu', this)">Chung cư</div>
+        <div class="cat" onclick="filterRooms('nguyen', this)">Nhà nguyên căn</div>
+    </div>
+    <div class="cards" id="cards">
+        <c:forEach var="post" items="${roomPosts}">
+
+            <c:choose>
+                <c:when test="${post.category == 'APARTMENT'}"><c:set var="catCode" value="chungcu" /></c:when>
+                <c:when test="${post.category == 'HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
+                <c:when test="${post.category == 'VILLA'}"><c:set var="catCode" value="nguyen" /></c:when>
+                <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
+            </c:choose>
+
+            <div class="card room-card" data-category="${catCode}" onclick="location.href='/post-detail/${post.id}'" style="cursor: pointer;">
+
+                <div class="card-img" style="position: relative; overflow: hidden; background-color: #f8f9fa;">
+                    <c:choose>
+                        <c:when test="${not empty post.roomImages}">
+                            <img src="${post.roomImages[0].imageUrl}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                        </c:when>
+                        <c:otherwise>
+                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #adb5bd;">
+                                NO IMAGE
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    <button class="save-btn" type="button" onclick="toggleSave(event, ${post.id})" title="Lưu phòng">
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;height:24px;width:24px;stroke-width:2;overflow:visible;"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path></svg>
+                    </button>
+                </div>
+
+                <div class="card-body">
+                    <div class="card-title">${post.title}</div>
+
+                    <div class="card-addr">${post.address}</div>
+
+                    <div class="card-row">
+                        <div class="card-price">
+                            <fmt:formatNumber value="${post.price}" type="number" groupingUsed="true"/> đ/tháng
+                        </div>
+                        <div class="card-tag">
+                            <c:choose>
+                                <c:when test="${post.category == 'APARTMENT'}">Chung cư</c:when>
+                                <c:when test="${post.category == 'HOUSE'}">Nguyên căn</c:when>
+                                <c:when test="${post.category == 'VILLA'}">Biệt thự</c:when>
+                                <c:otherwise>Phòng trọ</c:otherwise>
+                            </c:choose>
+                        </div>
+                    </div>
+
+                    <div class="card-meta">
+                        <span class="badge">📐 ${post.area} m²</span>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+
+    <c:if test="${totalPages > 1}">
+        <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px;">
+            <c:if test="${currentPage > 0}">
+                <a href="?page=${currentPage - 1}" class="site-btn site-btn-outline" style="padding: 8px 16px;">&laquo; Trước</a>
+            </c:if>
+            
+            <c:forEach begin="0" end="${totalPages - 1}" var="i">
+                <a href="?page=${i}" class="site-btn ${currentPage == i ? '' : 'site-btn-outline'}" style="padding: 8px 16px;">${i + 1}</a>
+            </c:forEach>
+            
+            <c:if test="${currentPage < totalPages - 1}">
+                <a href="?page=${currentPage + 1}" class="site-btn site-btn-outline" style="padding: 8px 16px;">Sau &raquo;</a>
+            </c:if>
+        </div>
+    </c:if>
+</section>
+<section class="features" id="features">
+    <h2>Tại sao chọn TrọTốt?</h2>
+    <p class="subtitle">Nền tảng tìm phòng trọ số 1 Việt Nam</p>
+    <div class="feat-grid">
+        <div class="feat"><div class="feat-icon">🔍</div><h3>Tìm kiếm thông minh</h3><p>Lọc theo giá, diện tích, tiện ích chỉ trong vài giây</p></div>
+        <div class="feat"><div class="feat-icon">✅</div><h3>Tin đăng xác thực</h3><p>Mọi tin đăng được kiểm duyệt thủ công trước khi hiển thị</p></div>
+        <div class="feat"><div class="feat-icon">📞</div><h3>Liên hệ trực tiếp</h3><p>Kết nối ngay với chủ trọ, không qua trung gian</p></div>
+        <div class="feat"><div class="feat-icon">🗺️</div><h3>Xem bản đồ</h3><p>Tìm phòng quanh khu vực bạn mong muốn dễ dàng</p></div>
+        <div class="feat"><div class="feat-icon">🔔</div><h3>Thông báo mới</h3><p>Nhận ngay khi có phòng mới phù hợp tiêu chí của bạn</p></div>
+    </div>
+</section>
+<div class="cta-banner" id="post-room">
+    <h2>Bạn có phòng muốn cho thuê?</h2>
+    <p>Đăng tin miễn phí, tiếp cận hàng chục nghìn người thuê tiềm năng mỗi ngày</p>
+    <button type="button" onclick="location.href='<c:url value='/post-room'/>'">Đăng tin ngay - Miễn phí</button>
 </div>
+<script>
+    function filterRooms(catCode, element) {
+        document.querySelectorAll('.cat').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        element.classList.add('active');
+        
+        var cards = document.querySelectorAll('.room-card');
+        cards.forEach(function(card) {
+            if (catCode === 'all' || card.getAttribute('data-category') === catCode) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function toggleSave(event, postId) {
+        event.stopPropagation(); // Ngăn click xuyên qua thẻ card
+        var btn = event.currentTarget;
+        btn.classList.toggle('saved');
+        
+        // Bạn có thể gọi AJAX lên server để lưu vào Favorite ở đây
+        // fetch('/api/favorites/toggle?postId=' + postId)
+    }
+</script>
 
 <div class="container">
     <div class="search-form" id="search-section">

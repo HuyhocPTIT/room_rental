@@ -1,38 +1,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 </main>
-
-<footer style="background-color: #004E89; color: white; padding: 40px 0 20px; margin-top: 60px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <h5 style="font-weight: 700;">🏠 RoomRental</h5>
-                <p>Nền tảng tìm kiếm phòng trọ nhanh chóng, tin cậy và minh bạch cho sinh viên và người lao động.</p>
-            </div>
-            <div class="col-md-4 mb-4">
-                <h5 style="font-weight: 700;">Danh Mục</h5>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="<c:url value='/'/>" style="color: #FFA500; text-decoration: none;">Trang chủ</a></li>
-                    <li><a href="<c:url value='/rooms'/>" style="color: #FFA500; text-decoration: none;">Danh sách phòng</a></li>
-                    <li><a href="<c:url value='/auth/login'/>" style="color: #FFA500; text-decoration: none;">Đăng nhập</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 mb-4">
-                <h5 style="font-weight: 700;">Liên Hệ</h5>
-                <p><i class="bi bi-telephone"></i> 1800-0000</p>
-                <p><i class="bi bi-envelope"></i> support@roomrental.com</p>
-            </div>
-        </div>
-        <hr style="border-color: rgba(255,255,255,0.3);">
-        <div class="text-center">
-            <p style="margin: 0;">&copy; 2026 RoomRental. All rights reserved.</p>
-        </div>
+<footer class="site-footer" id="contact">
+    <div class="site-footer-brand">
+        <div class="site-logo footer-logo">Trọ<span>Tốt</span></div>
+        <p>Nền tảng cho thuê phòng trọ uy tín, dễ dàng và nhanh chóng tại Việt Nam.</p>
+    </div>
+    <div class="site-footer-col">
+        <h4>Cho người thuê</h4>
+        <ul>
+            <li><a href="<c:url value='/'/>">Tìm phòng trọ</a></li>
+            <li><a href="<c:url value='/'/>#featured-rooms">Căn hộ mini</a></li>
+            <li><a href="<c:url value='/'/>#featured-rooms">Chung cư giá rẻ</a></li>
+            <li><a href="<c:url value='/'/>#featured-rooms">Lưu tin yêu thích</a></li>
+        </ul>
+    </div>
+    <div class="site-footer-col">
+        <h4>Cho chủ nhà</h4>
+        <ul>
+            <li><a href="<c:url value='/'/>#post-room">Đăng tin miễn phí</a></li>
+            <li><a href="<c:url value='/admin'/>">Quản lý tin đăng</a></li>
+            <li><a href="<c:url value='/'/>#featured-rooms">Gói nổi bật</a></li>
+        </ul>
+    </div>
+    <div class="site-footer-col">
+        <h4>Hỗ trợ</h4>
+        <ul>
+            <li><a href="#">Trung tâm trợ giúp</a></li>
+            <li><a href="#">Điều khoản sử dụng</a></li>
+            <li><a href="#">Chính sách bảo mật</a></li>
+            <li><a href="<c:url value='/'/>#contact">Liên hệ</a></li>
+        </ul>
     </div>
 </footer>
-
+<div class="site-footer-bottom">© 2026 TrọTốt - Tìm phòng trọ dễ dàng. Mọi quyền được bảo lưu.</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="<c:url value='/js/main.js'/>"></script>
-
 </body>
 </html>
