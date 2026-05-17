@@ -51,11 +51,11 @@
                     </div>
                 </div>
                 <div class="room-actions">
-                    <button class="action-btn favorite-btn" onclick="toggleFavorite(${roomDetail.id})">
+                    <button class="action-btn favorite-btn${roomDetail.favorite ? ' favorited' : ''}" onclick="toggleFavorite(event, ${roomDetail.id})">
                         <span class="heart-icon" id="favoriteIcon">
                             <c:choose>
                                 <c:when test="${roomDetail.favorite}">❤️</c:when>
-                                <c:otherwise>🤍</c:otherwise>
+                                <c:otherwise>♡</c:otherwise>
                             </c:choose>
                         </span>
                         <span class="favorite-text" id="favoriteText">
@@ -130,109 +130,7 @@
                 </div>
             </div>
 
-            <!-- Booking Section -->
-            <c:if test="${isLoggedIn}">
-                <div class="booking-section">
-                    <h2>Đặt phòng</h2>
-                    <form id="bookingForm" class="booking-form">
-                        <div class="form-group">
-                            <label for="checkInDate">Ngày nhận phòng:</label>
-                            <input type="date" id="checkInDate" name="checkInDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="checkOutDate">Ngày trả phòng (dự kiến):</label>
-                            <input type="date" id="checkOutDate" name="checkOutDate">
-                        </div>
-                        <div class="form-group">
-                            <label for="notes">Ghi chú:</label>
-                            <textarea id="notes" name="notes" rows="3" placeholder="Viết ghi chú của bạn..."></textarea>
-                        </div>
-                        <button type="button" class="booking-btn" onclick="submitBooking(${roomDetail.id})">Gửi yêu cầu đặt phòng</button>
-                    </form>
-                </div>
-            </c:if>
-
-            <!-- Reviews Section -->
-            <div class="reviews-section">
-                <h2>Đánh giá & Bình luận</h2>
-                
-                <div class="rating-summary">
-                    <div class="avg-rating">
-                        <span class="rating-number"><fmt:formatNumber value="${roomDetail.averageRating}" maxFractionDigits="1"/></span>
-                        <div class="rating-stars">
-                            <c:forEach begin="1" end="5" var="i">
-                                <span class="star ${i <= roomDetail.averageRating ? 'filled' : ''}" >⭐</span>
-                            </c:forEach>
-                        </div>
-                        <span class="rating-count">${roomDetail.totalReviews} đánh giá</span>
-                    </div>
-                </div>
-
-                <c:if test="${isLoggedIn}">
-                    <div class="add-review-form">
-                        <h3>Chia sẻ đánh giá của bạn</h3>
-                        <form id="reviewForm" class="review-form">
-                            <div class="form-group">
-                                <label for="rating">Đánh giá:</label>
-                                <div class="star-rating" id="starRating">
-                                    <span class="star" onclick="setRating(1)" data-value="1">⭐</span>
-                                    <span class="star" onclick="setRating(2)" data-value="2">⭐</span>
-                                    <span class="star" onclick="setRating(3)" data-value="3">⭐</span>
-                                    <span class="star" onclick="setRating(4)" data-value="4">⭐</span>
-                                    <span class="star" onclick="setRating(5)" data-value="5">⭐</span>
-                                </div>
-                                <input type="hidden" id="rating" name="rating" value="0">
-                            </div>
-                            <div class="form-group">
-                                <label for="comment">Bình luận:</label>
-                                <textarea id="comment" name="comment" rows="4" placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
-                            </div>
-                            <button type="button" class="submit-review-btn" onclick="submitReview(${roomDetail.id})">Gửi đánh giá</button>
-                        </form>
-                    </div>
-                </c:if>
-
-                <div class="reviews-list">
-                    <c:choose>
-                        <c:when test="${not empty roomDetail.reviews}">
-                            <c:forEach var="review" items="${roomDetail.reviews}">
-                                <div class="review-item">
-                                    <div class="review-header">
-                                        <div class="reviewer-info">
-                                            <div class="reviewer-avatar">
-                                                <c:choose>
-                                                    <c:when test="${not empty review.userAvatar}">
-                                                        <img src="${review.userAvatar}" alt="${review.userName}">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <div class="avatar-placeholder">👤</div>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
-                                            <div>
-                                                <h4 class="reviewer-name">${review.userName}</h4>
-                                                <p class="review-date">${review.createdAt}</p>
-                                            </div>
-                                        </div>
-                                        <div class="review-rating">
-                                            <c:forEach begin="1" end="${review.rating}" var="i">
-                                                <span class="star filled">⭐</span>
-                                            </c:forEach>
-                                            <c:forEach begin="${review.rating + 1}" end="5" var="i">
-                                                <span class="star">⭐</span>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                    <p class="review-comment">${review.comment}</p>
-                                </div>
-                            </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                            <p class="no-reviews">Chưa có đánh giá. Hãy là người đầu tiên đánh giá phòng này!</p>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
+            <!-- Booking and Reviews removed from detail page -->
         </section>
     </div>
 
@@ -289,14 +187,18 @@
         thumbnail.classList.add('active');
     }
 
-    function toggleFavorite(roomId) {
-        const btn = event.target.closest('.favorite-btn');
+    function toggleFavorite(event, roomId) {
+        const btn = event.currentTarget;
         const icon = document.getElementById('favoriteIcon');
         const text = document.getElementById('favoriteText');
+        const isFavorited = btn.classList.contains('favorited');
         
-        if (icon.textContent === '🤍') {
+        if (!isFavorited) {
             fetch('/room/' + roomId + '/favorite/add', {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
             .then(res => res.json())
             .then(data => {
@@ -307,110 +209,31 @@
                 }
                 alert(data.message);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                alert('Lỗi mạng, vui lòng thử lại.');
+            });
         } else {
             fetch('/room/' + roomId + '/favorite/remove', {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    icon.textContent = '🤍';
+                    icon.textContent = '♡';
                     text.textContent = 'Lưu phòng';
                     btn.classList.remove('favorited');
                 }
                 alert(data.message);
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                alert('Lỗi mạng, vui lòng thử lại.');
+            });
         }
-    }
-
-    function setRating(value) {
-        document.getElementById('rating').value = value;
-        
-        document.querySelectorAll('#starRating .star').forEach((star, index) => {
-            if (index < value) {
-                star.classList.add('selected');
-            } else {
-                star.classList.remove('selected');
-            }
-        });
-    }
-
-    function submitReview(roomId) {
-        const rating = document.getElementById('rating').value;
-        const comment = document.getElementById('comment').value;
-
-        if (!rating || rating == 0) {
-            alert('Vui lòng chọn đánh giá sao');
-            return;
-        }
-
-        if (!comment.trim()) {
-            alert('Vui lòng nhập bình luận');
-            return;
-        }
-
-        fetch('/room/' + roomId + '/review', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                rating: parseInt(rating),
-                comment: comment
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.message);
-            if (data.success) {
-                document.getElementById('reviewForm').reset();
-                document.getElementById('rating').value = 0;
-                document.querySelectorAll('#starRating .star').forEach(star => {
-                    star.classList.remove('selected');
-                });
-                setTimeout(() => location.reload(), 1500);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Lỗi khi gửi đánh giá');
-        });
-    }
-
-    function submitBooking(roomId) {
-        const checkInDate = document.getElementById('checkInDate').value;
-        const checkOutDate = document.getElementById('checkOutDate').value;
-        const notes = document.getElementById('notes').value;
-
-        if (!checkInDate) {
-            alert('Vui lòng chọn ngày nhận phòng');
-            return;
-        }
-
-        fetch('/room/' + roomId + '/booking', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                checkInDate: checkInDate,
-                checkOutDate: checkOutDate || null,
-                notes: notes
-            })
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.message);
-            if (data.success) {
-                document.getElementById('bookingForm').reset();
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            alert('Lỗi khi đặt phòng');
-        });
     }
 
     function copyToClipboard(text) {

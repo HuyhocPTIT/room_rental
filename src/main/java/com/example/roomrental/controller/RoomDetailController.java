@@ -1,13 +1,8 @@
 package com.example.roomrental.controller;
 
 import com.example.roomrental.constant.SessionAttribute;
-import com.example.roomrental.dto.BookingRequest;
-import com.example.roomrental.dto.ReviewDTO;
-import com.example.roomrental.dto.ReviewRequest;
 import com.example.roomrental.dto.RoomDetailDTO;
 import com.example.roomrental.entity.*;
-import com.example.roomrental.service.ReviewService;
-import com.example.roomrental.service.BookingService;
 import com.example.roomrental.service.RoomPostService;
 import com.example.roomrental.repository.FavoriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,11 +24,7 @@ public class RoomDetailController {
     @Autowired
     private RoomPostService roomPostService;
 
-    @Autowired
-    private ReviewService reviewService;
-
-    @Autowired
-    private BookingService bookingService;
+    
 
     @Autowired
     private FavoriteRepository favoriteRepository;
@@ -53,59 +46,19 @@ public class RoomDetailController {
         return "room-detail";
     }
 
-    @PostMapping("/{id}/review")
-    @ResponseBody
-    public String addReview(@PathVariable Long id, @RequestBody ReviewRequest request, HttpSession session) {
-        User currentUser = (User) session.getAttribute(SessionAttribute.CURRENT_USER);
-        if (currentUser == null) {
-            return "{\"success\": false, \"message\": \"Vui lòng đăng nhập\"}";
-        }
-
-        RoomPost roomPost = roomPostService.getRoomPostById(id).orElse(null);
-        if (roomPost == null) {
-            return "{\"success\": false, \"message\": \"Phòng không tồn tại\"}";
-        }
-
-        try {
-            reviewService.addReview(id, currentUser, request, roomPost);
-            return "{\"success\": true, \"message\": \"Thêm đánh giá thành công\"}";
-        } catch (Exception e) {
-            return "{\"success\": false, \"message\": \"Lỗi khi thêm đánh giá\"}";
-        }
-    }
-
-    @PostMapping("/{id}/booking")
-    @ResponseBody
-    public String createBooking(@PathVariable Long id, @RequestBody BookingRequest request, HttpSession session) {
-        User currentUser = (User) session.getAttribute(SessionAttribute.CURRENT_USER);
-        if (currentUser == null) {
-            return "{\"success\": false, \"message\": \"Vui lòng đăng nhập\"}";
-        }
-
-        RoomPost roomPost = roomPostService.getRoomPostById(id).orElse(null);
-        if (roomPost == null) {
-            return "{\"success\": false, \"message\": \"Phòng không tồn tại\"}";
-        }
-
-        try {
-            bookingService.createBooking(id, currentUser, request, roomPost);
-            return "{\"success\": true, \"message\": \"Đặt phòng thành công. Chủ trọ sẽ liên hệ với bạn.\"}";
-        } catch (Exception e) {
-            return "{\"success\": false, \"message\": \"Lỗi khi đặt phòng\"}";
-        }
-    }
+    // Booking and review endpoints removed from room detail page
 
     @PostMapping("/{id}/favorite/add")
     @ResponseBody
-    public String addFavorite(@PathVariable Long id, HttpSession session) {
+    public Map<String, Object> addFavorite(@PathVariable Long id, HttpSession session) {
         User currentUser = (User) session.getAttribute(SessionAttribute.CURRENT_USER);
         if (currentUser == null) {
-            return "{\"success\": false, \"message\": \"Vui lòng đăng nhập\"}";
+            return Map.of("success", false, "message", "Vui lòng đăng nhập");
         }
 
         RoomPost roomPost = roomPostService.getRoomPostById(id).orElse(null);
         if (roomPost == null) {
-            return "{\"success\": false, \"message\": \"Phòng không tồn tại\"}";
+            return Map.of("success", false, "message", "Phòng không tồn tại");
         }
 
         try {
@@ -115,18 +68,18 @@ public class RoomDetailController {
                 favorite.setRoomPost(roomPost);
                 favoriteRepository.save(favorite);
             }
-            return "{\"success\": true, \"message\": \"Đã thêm vào yêu thích\"}";
+            return Map.of("success", true, "message", "Đã thêm vào yêu thích");
         } catch (Exception e) {
-            return "{\"success\": false, \"message\": \"Lỗi khi thêm vào yêu thích\"}";
+            return Map.of("success", false, "message", "Lỗi khi thêm vào yêu thích");
         }
     }
 
     @PostMapping("/{id}/favorite/remove")
     @ResponseBody
-    public String removeFavorite(@PathVariable Long id, HttpSession session) {
+    public Map<String, Object> removeFavorite(@PathVariable Long id, HttpSession session) {
         User currentUser = (User) session.getAttribute(SessionAttribute.CURRENT_USER);
         if (currentUser == null) {
-            return "{\"success\": false, \"message\": \"Vui lòng đăng nhập\"}";
+            return Map.of("success", false, "message", "Vui lòng đăng nhập");
         }
 
         try {
@@ -134,9 +87,9 @@ public class RoomDetailController {
             if (favorite != null) {
                 favoriteRepository.delete(favorite);
             }
-            return "{\"success\": true, \"message\": \"Đã xóa khỏi yêu thích\"}";
+            return Map.of("success", true, "message", "Đã xóa khỏi yêu thích");
         } catch (Exception e) {
-            return "{\"success\": false, \"message\": \"Lỗi khi xóa khỏi yêu thích\"}";
+            return Map.of("success", false, "message", "Lỗi khi xóa khỏi yêu thích");
         }
     }
 
@@ -182,24 +135,7 @@ public class RoomDetailController {
             );
         }
 
-        // Reviews
-        List<Review> reviews = reviewService.getReviewsByRoomPostId(roomPost.getId());
-        List<ReviewDTO> reviewDTOs = reviews.stream().map(review -> {
-            ReviewDTO reviewDTO = new ReviewDTO();
-            reviewDTO.setId(review.getId());
-            reviewDTO.setRating(review.getRating());
-            reviewDTO.setComment(review.getComment());
-            if (review.getUser() != null && review.getUser().getProfile() != null) {
-                reviewDTO.setUserName(review.getUser().getProfile().getName());
-                reviewDTO.setUserAvatar(review.getUser().getProfile().getAvatar());
-            }
-            reviewDTO.setCreatedAt(review.getCreatedAt().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-            return reviewDTO;
-        }).collect(Collectors.toList());
-
-        dto.setReviews(reviewDTOs);
-        dto.setAverageRating(reviewService.getAverageRating(roomPost.getId()));
-        dto.setTotalReviews(reviewDTOs.size());
+        // Reviews removed from detail page — no action needed
 
         // Favorite status
         User currentUser = (User) session.getAttribute(SessionAttribute.CURRENT_USER);

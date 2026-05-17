@@ -34,10 +34,7 @@ public class RoomDetailDTO {
     // Images
     private List<String> roomImages;
     
-    // Reviews
-    private List<ReviewDTO> reviews;
-    private double averageRating;
-    private int totalReviews;
+    // Reviews removed
     
     // Favorite status
     private boolean favorite;
