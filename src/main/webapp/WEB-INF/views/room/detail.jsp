@@ -5,7 +5,7 @@
 <c:set var="bodyClass" value="room-detail-page" scope="request" />
 <c:set var="mainClass" value="room-detail-main" scope="request" />
 <c:set var="pageSpecificCss" value="/css/room-detail.css" scope="request" />
-<jsp:include page="common/header.jsp" />
+<jsp:include page="../common/header.jsp" />
 
 <div class="room-detail-container">
     <div class="room-detail-content">
@@ -243,4 +243,4 @@
     }
 </script>
 
-<jsp:include page="common/footer.jsp" />
+<jsp:include page="../common/footer.jsp" />

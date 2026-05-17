@@ -51,6 +51,11 @@ body {
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
+    transition: color .2s;
+}
+
+.site-nav-links a:hover {
+    color: #e35d2b;
 }
 
 .site-nav-actions {
@@ -72,11 +77,21 @@ body {
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.site-btn:hover {
+    background: #c94e22;
 }
 
 .site-btn-outline {
     background: #fff;
     color: #e35d2b;
+}
+
+.site-btn-outline:hover {
+    background: #fff5f0;
 }
 
 .site-footer {
@@ -89,7 +104,25 @@ body {
     color: #ccc;
 }
 
+.site-footer-brand p {
+    max-width: 220px;
+    margin: 8px 0 0;
+    color: #888;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.site-footer-col h4 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
 .site-footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -99,6 +132,11 @@ body {
     color: #888;
     font-size: 13px;
     text-decoration: none;
+    transition: color .2s;
+}
+
+.site-footer-col a:hover {
+    color: #e35d2b;
 }
 
 .site-footer-bottom {
@@ -109,68 +147,6 @@ body {
     text-align: center;
 }
 
-.home-page nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    padding: 0 40px;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-}
-
-.home-page .logo {
-    color: #e35d2b;
-    font-size: 22px;
-    font-weight: 700;
-}
-
-.home-page .logo span {
-    color: #222;
-}
-
-.home-page footer .logo span {
-    color: #fff;
-}
-
-.home-page .nav-links {
-    display: flex;
-    gap: 28px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.home-page .nav-links a {
-    color: #444;
-    font-size: 14px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color .2s;
-}
-
-.home-page .nav-links a:hover {
-    color: #e35d2b;
-}
-
-.home-page .nav-btn {
-    padding: 8px 20px;
-    border: 0;
-    border-radius: 8px;
-    background: #e35d2b;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .2s;
-}
-
-.home-page .nav-btn:hover {
-    background: #c94e22;
-}
 
 .home-page .hero {
     padding: 72px 40px 60px;
@@ -333,6 +309,7 @@ body {
 
 .home-page .card-img,
 .favorites-page .card-img {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -347,32 +324,38 @@ body {
 .home-page .save-btn,
 .favorites-page .save-btn {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: transparent;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
     border: none;
-    padding: 0;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.2s;
     z-index: 10;
+}
+
+.home-page .save-btn:hover,
+.favorites-page .save-btn:hover {
+    background: #fff;
+    transform: scale(1.1);
 }
 
 .home-page .save-btn svg,
 .favorites-page .save-btn svg {
-    fill: rgba(0, 0, 0, 0.4);
+    fill: rgba(0, 0, 0, 0.3);
     stroke: #fff;
-    transition: fill 0.2s, transform 0.2s;
-}
-
-.home-page .save-btn:hover svg,
-.favorites-page .save-btn:hover svg {
-    transform: scale(1.1);
+    transition: fill 0.2s, stroke 0.2s;
 }
 
 .home-page .save-btn.saved svg,
 .favorites-page .save-btn.saved svg {
     fill: #ff385c;
-    stroke: #fff;
+    stroke: #ff385c;
 }
 
 .home-page .card-body,
@@ -503,57 +486,6 @@ body {
     cursor: pointer;
 }
 
-.home-page footer {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 24px;
-    padding: 40px;
-    background: #1a1a1a;
-    color: #ccc;
-}
-
-.home-page .footer-brand p {
-    max-width: 220px;
-    margin: 8px 0 0;
-    color: #888;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.home-page .footer-col h4 {
-    margin: 0 0 12px;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.home-page .footer-col ul {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.home-page .footer-col a {
-    color: #888;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-.home-page .footer-col a:hover {
-    color: #e35d2b;
-}
-
-.home-page .footer-bottom {
-    padding: 14px;
-    background: #111;
-    color: #555;
-    font-size: 12px;
-    text-align: center;
-}
 
 .home-page .modal-overlay {
     position: fixed;
@@ -679,4 +611,4 @@ body {
     .home-page .cards {
         grid-template-columns: 1fr;
     }
-}
+}

@@ -24,8 +24,6 @@ public class RoomDetailController {
     @Autowired
     private RoomPostService roomPostService;
 
-    
-
     @Autowired
     private FavoriteRepository favoriteRepository;
 
@@ -43,10 +41,9 @@ public class RoomDetailController {
         model.addAttribute("roomDetail", roomDetail);
         model.addAttribute("isLoggedIn", session.getAttribute(SessionAttribute.CURRENT_USER) != null);
 
-        return "room-detail";
+        return "room/detail";
     }
 
-    // Booking and review endpoints removed from room detail page
 
     @PostMapping("/{id}/favorite/add")
     @ResponseBody

@@ -4,7 +4,7 @@
 <c:set var="pageTitle" value="TrọTốt - Phòng đã lưu" scope="request" />
 <c:set var="bodyClass" value="favorites-page" scope="request" />
 <c:set var="mainClass" value="container my-4" scope="request" />
-<jsp:include page="common/header.jsp" />
+<jsp:include page="../common/header.jsp" />
 
 <section class="page-header">
     <div class="page-head-content">
@@ -111,4 +111,4 @@
         });
     }
 </script>
-<jsp:include page="common/footer.jsp" />
+<jsp:include page="../common/footer.jsp" />
