@@ -57,7 +57,7 @@
                 <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
             </c:choose>
 
-            <div class="card room-card" data-category="${catCode}" onclick="location.href='/post-detail/${post.id}'" style="cursor: pointer;">
+            <div class="card room-card" data-category="${catCode}" onclick="location.href='/room/${post.id}'" style="cursor: pointer;">
 
                 <div class="card-img" style="position: relative; overflow: hidden; background-color: #f8f9fa;">
                     <c:choose>
@@ -153,11 +153,28 @@
 
     function toggleSave(event, postId) {
         event.stopPropagation(); // Ngăn click xuyên qua thẻ card
-        var btn = event.currentTarget;
-        btn.classList.toggle('saved');
-        
-        // Bạn có thể gọi AJAX lên server để lưu vào Favorite ở đây
-        // fetch('/api/favorites/toggle?postId=' + postId)
+        const btn = event.currentTarget;
+        const isSaved = btn.classList.contains('saved');
+        const action = isSaved ? 'remove' : 'add';
+
+        fetch('/room/' + postId + '/favorite/' + action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                btn.classList.toggle('saved');
+                btn.title = isSaved ? 'Lưu phòng' : 'Bỏ lưu phòng';
+            } else {
+                alert(data.message || 'Lỗi khi cập nhật trạng thái yêu thích');
+            }
+        })
+        .catch(() => {
+            alert('Lỗi mạng, vui lòng thử lại.');
+        });
     }
 </script>
 

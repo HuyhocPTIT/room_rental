@@ -1,0 +1,388 @@
+/* Room Detail Container */
+.room-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.room-detail-content {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Images Section */
+.room-images-section {
+    background: #f8f9fa;
+}
+
+.images-container {
+    width: 100%;
+}
+
+.main-image-wrapper {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnails-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+    padding: 12px;
+    background: #f8f9fa;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.thumbnail:hover,
+.thumbnail.active {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Room Info Section */
+.room-info-section {
+    padding: 30px;
+}
+
+.room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.room-title-group {
+    flex: 1;
+}
+
+.room-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.room-address {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.room-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background: #f8f9fa;
+    border-color: #007bff;
+}
+
+.favorite-btn {
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.favorite-btn.favorited {
+    background: #fff3cd;
+    border-color: #ffc107;
+}
+
+.heart-icon {
+    font-size: 18px;
+    font-family: "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", sans-serif;
+}
+
+/* Price Info */
+.room-price-info {
+    margin-bottom: 30px;
+}
+
+.price-main {
+    font-size: 32px;
+    font-weight: bold;
+    color: #dc3545;
+    margin-bottom: 10px;
+}
+
+.room-specs {
+    display: flex;
+    gap: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Description */
+.room-description {
+    margin-bottom: 30px;
+}
+
+.room-description h2,
+.contact-info h2,
+.owner-info-section h2,
+.booking-section h2,
+.reviews-section h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.room-description p {
+    line-height: 1.6;
+    color: #555;
+    white-space: pre-wrap;
+}
+
+/* Contact Info */
+.contact-info {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.contact-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-item label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.contact-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Owner Info */
+.owner-info-section {
+    margin-bottom: 30px;
+}
+
+.owner-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #007bff;
+}
+
+.owner-avatar {
+    flex-shrink: 0;
+}
+
+.owner-avatar img,
+.avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.owner-details {
+    flex: 1;
+}
+
+.owner-name {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.owner-email,
+.owner-phone {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* Booking styles removed */
+
+/* Reviews styles removed */
+
+/* Sidebar */
+.room-sidebar {
+    position: relative;
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-card .card-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.sidebar-card .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #555;
+}
+
+.info-row .label {
+    font-weight: 600;
+    color: #333;
+}
+
+.info-row .value {
+    text-align: right;
+}
+
+.sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.primary-btn {
+    background: #dc3545;
+    color: white;
+    font-weight: 600;
+    padding: 12px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-btn:hover {
+    background: #c82333;
+}
+
+.secondary-btn {
+    background: white;
+    color: #007bff;
+    font-weight: 600;
+    padding: 12px;
+    border: 1px solid #007bff;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.secondary-btn:hover {
+    background: #f8f9fa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .room-detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .room-header {
+        flex-direction: column;
+    }
+
+    .room-title {
+        font-size: 24px;
+    }
+
+    .price-main {
+        font-size: 24px;
+    }
+
+    .main-image-wrapper {
+        height: 300px;
+    }
+
+    .review-header {
+        flex-direction: column;
+    }
+
+    .sidebar-sticky {
+        position: static;
+    }
+}
