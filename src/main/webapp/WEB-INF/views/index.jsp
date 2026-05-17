@@ -70,7 +70,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <button class="save-btn" type="button" onclick="toggleSave(event, ${post.id})" title="Lưu phòng">
+                    <button class="save-btn ${savedPostIds.contains(post.id) ? 'saved' : ''}" type="button" onclick="toggleSave(event, ${post.id})" title="Lưu phòng">
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;height:24px;width:24px;stroke-width:2;overflow:visible;"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path></svg>
                     </button>
                 </div>
@@ -152,29 +152,29 @@
     }
 
     function toggleSave(event, postId) {
-        event.stopPropagation(); // Ngăn click xuyên qua thẻ card
-        const btn = event.currentTarget;
-        const isSaved = btn.classList.contains('saved');
-        const action = isSaved ? 'remove' : 'add';
+        event.stopPropagation(); // Ngăn click nhầm vào card chuyển sang trang chi tiết
+        var btn = event.currentTarget;
 
-        fetch('/room/' + postId + '/favorite/' + action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
+        // Gọi API lên server
+        fetch('/favorites/toggle?postId=' + postId, {
+            method: 'POST' // (Hoặc GET tùy thuộc vào Controller của bạn)
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                btn.classList.toggle('saved');
-                btn.title = isSaved ? 'Lưu phòng' : 'Bỏ lưu phòng';
-            } else {
-                alert(data.message || 'Lỗi khi cập nhật trạng thái yêu thích');
-            }
-        })
-        .catch(() => {
-            alert('Lỗi mạng, vui lòng thử lại.');
-        });
+            .then(response => {
+                if (response.ok) {
+                    // Đổi màu trái tim (tắt/bật class 'saved') khi server xử lý thành công
+                    btn.classList.toggle('saved');
+                } else if (response.status === 401 || response.status === 403) {
+                    // Nếu chưa đăng nhập
+                    alert("Bạn cần đăng nhập để lưu phòng này nhé!");
+                    window.location.href = '/auth/login';
+                } else {
+                    alert("Có lỗi xảy ra khi lưu phòng, vui lòng thử lại.");
+                }
+            })
+            .catch(error => {
+                console.error('Lỗi khi lưu phòng:', error);
+                alert("Không thể kết nối đến máy chủ.");
+            });
     }
 </script>
 
