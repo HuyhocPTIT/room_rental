@@ -1,6 +1,7 @@
 package com.example.roomrental.service;
 
 import com.example.roomrental.constant.PostStatus;
+import com.example.roomrental.constant.RoomCategory;
 import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.repository.RoomPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,13 @@ public class RoomPostService {
 
     public Page<RoomPost> getActivePosts(Pageable pageable) {
         return roomPostRepository.findByStatus(PostStatus.ACTIVE, pageable);
+    }
+
+    public Page<RoomPost> getActivePostsByCategory(RoomCategory category, Pageable pageable) {
+        if (category == null) {
+            return getActivePosts(pageable);
+        }
+        return roomPostRepository.findByStatusAndCategory(PostStatus.ACTIVE, category, pageable);
     }
 
     public Optional<RoomPost> getRoomPostById(Long id) {

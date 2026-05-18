@@ -1,5 +1,6 @@
 package com.example.roomrental.controller;
 
+import com.example.roomrental.constant.RoomCategory;
 import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.entity.User;
 import com.example.roomrental.service.FavoriteService;
@@ -31,17 +32,17 @@ public class HomeController {
     @GetMapping("/")
     public String home(@RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "6") int size,
+                       @RequestParam(required = false) RoomCategory category,
                        HttpSession session,
                        Model model) {
-        Page<RoomPost> roomPage = roomPostService.getActivePosts(PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        Page<RoomPost> roomPage = roomPostService.getActivePostsByCategory(category, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
         model.addAttribute("roomPosts", roomPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", roomPage.getTotalPages());
+        model.addAttribute("currentCategory", category);
 
-        // Khởi tạo một list rỗng
         List<Long> savedPostIds = new ArrayList<>();
 
-        // Kiểm tra xem có user đăng nhập không
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser != null) {
             // Lấy danh sách các bài đăng mà user này đã lưu
