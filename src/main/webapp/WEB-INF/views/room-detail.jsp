@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="pageTitle" value="${roomDetail.title} - TrọTốt" scope="request" />
 <c:set var="bodyClass" value="room-detail-page" scope="request" />
 <c:set var="mainClass" value="room-detail-main" scope="request" />
@@ -75,6 +76,33 @@
                 <div class="room-specs">
                     <span class="spec-item">📐 ${roomDetail.area} m²</span>
                     <span class="spec-item">🏷️ ${roomDetail.category}</span>
+                </div>
+            </div>
+
+            <c:set var="locationText" value="${roomDetail.address}" />
+            <c:if test="${not empty roomDetail.ward}">
+                <c:set var="locationText" value="${locationText}, ${roomDetail.ward}, ${roomDetail.district}, ${roomDetail.city}" />
+            </c:if>
+
+            <!-- Location & Map -->
+            <div class="location-map-section">
+                <h2>Vị trí & bản đồ</h2>
+                <div class="location-summary">
+                    <div class="location-label">
+                        📍
+                        <span>
+                            ${roomDetail.address}
+                            <c:if test="${not empty roomDetail.ward}">
+                                , ${roomDetail.ward}, ${roomDetail.district}, ${roomDetail.city}
+                            </c:if>
+                        </span>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=${fn:replace(locationText, ' ', '+')}" target="_blank" class="map-link">
+                        Xem bản đồ lớn
+                    </a>
+                </div>
+                <div class="map-container">
+                    <iframe class="location-map" src="https://www.google.com/maps?q=${fn:replace(locationText, ' ', '+')}&output=embed" allowfullscreen loading="lazy"></iframe>
                 </div>
             </div>
 
