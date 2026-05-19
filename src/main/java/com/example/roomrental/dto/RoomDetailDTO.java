@@ -21,6 +21,7 @@ public class RoomDetailDTO {
     private String createdAt;
     
     // Owner info
+    private Long ownerId;
     private String ownerName;
     private String ownerPhone;
     private String ownerEmail;

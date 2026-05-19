@@ -3,5 +3,6 @@ package com.example.roomrental.constant;
 public enum PostStatus {
     ACTIVE,
     HIDDEN,
-    EXPIRED
+    EXPIRED,
+    PENDING_APPROVAL,
 }
