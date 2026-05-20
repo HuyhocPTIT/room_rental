@@ -1,11 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:set var="pageTitle" value="${roomDetail.title} - TrọTốt" scope="request" />
-<c:set var="bodyClass" value="room-detail-page" scope="request" />
-<c:set var="mainClass" value="room-detail-main" scope="request" />
-<c:set var="pageSpecificCss" value="/css/room-detail.css" scope="request" />
-<jsp:include page="../common/header.jsp" />
+<c:set var="pageTitle" value="${roomDetail.title} - TrọTốt" scope="request"/>
+<c:set var="bodyClass" value="room-detail-page" scope="request"/>
+<c:set var="mainClass" value="room-detail-main" scope="request"/>
+<c:set var="pageSpecificCss" value="/css/room-detail.css" scope="request"/>
+
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+
+<jsp:include page="../common/header.jsp"/>
 
 <div class="room-detail-container">
     <div class="room-detail-content">
@@ -15,13 +19,14 @@
                 <c:choose>
                     <c:when test="${not empty roomDetail.roomImages}">
                         <div class="main-image-wrapper">
-                            <img id="mainImage" src="${roomDetail.roomImages[0]}" alt="${roomDetail.title}" class="main-image">
+                            <img id="mainImage" src="${roomDetail.roomImages[0]}" alt="${roomDetail.title}"
+                                 class="main-image">
                         </div>
                         <c:if test="${roomDetail.roomImages.size() > 1}">
                             <div class="thumbnails-wrapper">
                                 <c:forEach var="image" items="${roomDetail.roomImages}" varStatus="status">
-                                    <img src="${image}" alt="Hình ${status.index + 1}" 
-                                         class="thumbnail ${status.index == 0 ? 'active' : ''}" 
+                                    <img src="${image}" alt="Hình ${status.index + 1}"
+                                         class="thumbnail ${status.index == 0 ? 'active' : ''}"
                                          onclick="changeMainImage(this)">
                                 </c:forEach>
                             </div>
@@ -51,7 +56,8 @@
                     </div>
                 </div>
                 <div class="room-actions">
-                    <button class="action-btn favorite-btn${roomDetail.favorite ? ' favorited' : ''}" onclick="toggleFavorite(event, ${roomDetail.id})">
+                    <button class="action-btn favorite-btn${roomDetail.favorite ? ' favorited' : ''}"
+                            onclick="toggleFavorite(event, ${roomDetail.id})">
                         <span class="heart-icon" id="favoriteIcon">
                             <c:choose>
                                 <c:when test="${roomDetail.favorite}">❤️</c:when>
@@ -99,14 +105,16 @@
                 <div class="contact-section">
                     <div class="contact-item">
                         <label>Điện thoại:</label>
-                        <span><a href="tel:${roomDetail.phoneContact}" class="contact-link">${roomDetail.phoneContact}</a></span>
+                        <span><a href="tel:${roomDetail.phoneContact}"
+                                 class="contact-link">${roomDetail.phoneContact}</a></span>
                     </div>
                     <div class="contact-item">
                         <label>Zalo:</label>
                         <span>
                             <c:choose>
                                 <c:when test="${not empty roomDetail.zaloContact}">
-                                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank" class="contact-link">${roomDetail.zaloContact}</a>
+                                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank"
+                                       class="contact-link">${roomDetail.zaloContact}</a>
                                 </c:when>
                                 <c:otherwise>
                                     Không có
@@ -134,7 +142,8 @@
                     <div class="owner-details">
                         <h3 class="owner-name">${roomDetail.ownerName}</h3>
                         <p class="owner-email">📧 ${roomDetail.ownerEmail}</p>
-                        <p class="owner-phone">📱 <a href="tel:${roomDetail.ownerPhone}" class="contact-link">${roomDetail.ownerPhone}</a></p>
+                        <p class="owner-phone">📱 <a href="tel:${roomDetail.ownerPhone}"
+                                                    class="contact-link">${roomDetail.ownerPhone}</a></p>
                     </div>
                 </div>
             </div>
@@ -150,7 +159,8 @@
                 <div class="card-content">
                     <div class="info-row">
                         <span class="label">Giá:</span>
-                        <span class="value"><fmt:formatNumber value="${roomDetail.price}" type="number" groupingUsed="true"/> đ/tháng</span>
+                        <span class="value"><fmt:formatNumber value="${roomDetail.price}" type="number"
+                                                              groupingUsed="true"/> đ/tháng</span>
                     </div>
                     <div class="info-row">
                         <span class="label">Diện tích:</span>
@@ -182,10 +192,15 @@
                     📋 Copy số điện thoại
                 </button>
                 <c:if test="${not empty roomDetail.zaloContact}">
-                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank" class="action-btn secondary-btn">
+                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank"
+                       class="action-btn secondary-btn">
                         💬 Chat Zalo
                     </a>
                 </c:if>
+                <button class="action-btn secondary-btn"
+                        onclick="openChat('${roomDetail.ownerId}', '${roomDetail.ownerName}')">
+                    💬 Nhắn tin
+                </button>
             </div>
         </div>
     </aside>
@@ -195,7 +210,7 @@
     function changeMainImage(thumbnail) {
         const mainImage = document.getElementById('mainImage');
         mainImage.src = thumbnail.src;
-        
+
         document.querySelectorAll('.thumbnail').forEach(thumb => {
             thumb.classList.remove('active');
         });
@@ -207,7 +222,7 @@
         const icon = document.getElementById('favoriteIcon');
         const text = document.getElementById('favoriteText');
         const isFavorited = btn.classList.contains('favorited');
-        
+
         if (!isFavorited) {
             fetch('/room/' + roomId + '/favorite/add', {
                 method: 'POST',
@@ -215,19 +230,19 @@
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    icon.textContent = '❤️';
-                    text.textContent = 'Đã lưu';
-                    btn.classList.add('favorited');
-                }
-                alert(data.message);
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Lỗi mạng, vui lòng thử lại.');
-            });
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        icon.textContent = '❤️';
+                        text.textContent = 'Đã lưu';
+                        btn.classList.add('favorited');
+                    }
+                    alert(data.message);
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Lỗi mạng, vui lòng thử lại.');
+                });
         } else {
             fetch('/room/' + roomId + '/favorite/remove', {
                 method: 'POST',
@@ -235,19 +250,19 @@
                     'Content-Type': 'application/json'
                 }
             })
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    icon.textContent = '♡';
-                    text.textContent = 'Lưu phòng';
-                    btn.classList.remove('favorited');
-                }
-                alert(data.message);
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Lỗi mạng, vui lòng thử lại.');
-            });
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        icon.textContent = '♡';
+                        text.textContent = 'Lưu phòng';
+                        btn.classList.remove('favorited');
+                    }
+                    alert(data.message);
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Lỗi mạng, vui lòng thử lại.');
+                });
         }
     }
 
@@ -258,4 +273,205 @@
     }
 </script>
 
-<jsp:include page="../common/footer.jsp" />
+<div id="chat-box"
+     style="display:none;
+     position:fixed;
+     bottom:20px;
+     right:20px;
+     width:340px;
+     height:460px;
+     z-index:2000;
+     font-family: system-ui;
+     border-radius:14px;
+     overflow:hidden;
+     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+     flex-direction:column;
+     background:#fff;">
+
+    <div style="
+    background: linear-gradient(135deg,#198754,#20c997);
+    color:white;
+    padding:10px 12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;">
+        <h6 id="chat-title" style="margin:0;font-weight:600;">💬 Chat</h6>
+        <button onclick="closeChat()"
+                style="background:transparent;border:none;color:white;font-size:18px;cursor:pointer;">
+            ✕
+        </button>
+    </div>
+
+    <div id="message-container"
+         style="
+     flex:1;
+     overflow-y:auto;
+     padding:12px;
+     background:#f6f7fb;">
+    </div>
+
+    <div style="padding:8px;border-top:1px solid #eee;background:#fff;">
+        <div style="display:flex;gap:6px;">
+            <input type="text" id="chat-input"
+                   style="
+                   flex:1;
+                   border:1px solid #d1e7dd;
+                   border-radius:18px;
+                   padding:7px 10px;
+                   font-size:13px;
+                   outline:none;"
+                   placeholder="Nhập tin nhắn...">
+
+            <button onclick="sendMessage()"
+                    style="
+                background:#198754;
+                color:white;
+                border:none;
+                width:34px;
+                height:34px;
+                border-radius:50%;
+                font-size:20px;">
+                ➤
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var stompClient = null;
+    var currentUserId = "${not empty sessionScope.currentUser ? sessionScope.currentUser.id : ''}";
+
+    window.onload = function () {
+        if (currentUserId) connectWebSocket();
+    };
+
+    function connectWebSocket() {
+        var socket = new SockJS('/ws');
+        stompClient = Stomp.over(socket);
+        stompClient.debug = null;
+
+        stompClient.connect({}, function () {
+            stompClient.subscribe('/topic/messages/' + currentUserId, function (msgOutput) {
+                const msg = JSON.parse(msgOutput.body);
+
+                const chatBox = document.getElementById('chat-box');
+                const receiverId = chatBox.getAttribute('data-receiver-id');
+
+                const isFromCurrentChat =
+                    String(msg.senderId) === String(receiverId);
+
+                if (chatBox.style.display === 'flex' && isFromCurrentChat) {
+                    appendMessage(msg, 'receiver');
+                }
+            });
+        });
+    }
+
+    function openChat(receiverId, receiverName) {
+
+        if (!currentUserId) {
+            alert("Bạn cần đăng nhập!");
+            return;
+        }
+
+        if (String(currentUserId) === String(receiverId)) return;
+
+        const chatBox = document.getElementById('chat-box');
+        chatBox.style.display = 'flex';
+        chatBox.setAttribute('data-receiver-id', receiverId);
+
+        document.getElementById('chat-title').innerText =
+            "Chat với " + receiverName;
+
+        document.getElementById('message-container').innerHTML =
+            '<div class="text-muted text-center">Đang tải...</div>';
+
+        fetch('/api/chat/history?senderId=' + currentUserId + '&receiverId=' + receiverId)
+            .then(async res => {
+                if (!res.ok) {
+                    throw new Error("HTTP " + res.status);
+                }
+                return await res.json();
+            })
+            .then(data => {
+                const container = document.getElementById('message-container');
+                container.innerHTML = '';
+
+                data.forEach(msg => {
+                    const isSender = String(msg.senderId) === String(currentUserId);
+                    appendMessage(msg, isSender ? 'sender' : 'receiver');
+                });
+            })
+            .catch(err => {
+                console.error("CHAT HISTORY ERROR:", err);
+
+                document.getElementById('message-container').innerHTML =
+                    '<div style="text-align:center;color:red;">Không tải được tin nhắn</div>';
+            });
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const chatBox = document.getElementById('chat-box');
+        const receiverId = chatBox.getAttribute('data-receiver-id');
+
+        if (!input.value.trim()) return;
+
+        const msg = {
+            senderId: Number(currentUserId),
+            receiverId: Number(receiverId),
+            content: input.value,
+            isRead: false
+        };
+
+        stompClient.send("/app/send-message", {}, JSON.stringify(msg));
+        appendMessage(msg, 'sender');
+        input.value = '';
+    }
+
+    function appendMessage(msg, type) {
+        const container = document.getElementById('message-container');
+
+        const wrap = document.createElement('div');
+        wrap.style.display = "flex";
+        wrap.style.marginBottom = "8px";
+        wrap.style.justifyContent = type === 'sender' ? 'flex-end' : 'flex-start';
+
+        const bubble = document.createElement('div');
+
+        bubble.style.maxWidth = "75%";
+        bubble.style.padding = "10px 12px";
+        bubble.style.borderRadius = "16px";
+        bubble.style.fontSize = "14px";
+        bubble.style.lineHeight = "1.4";
+        bubble.style.wordBreak = "break-word";
+
+        if (type === 'sender') {
+            bubble.style.background = "#198754";
+            bubble.style.color = "white";
+            bubble.style.borderBottomRightRadius = "4px";
+        } else {
+            bubble.style.background = "white";
+            bubble.style.border = "1px solid #e5e5e5";
+            bubble.style.borderBottomLeftRadius = "4px";
+        }
+
+        bubble.textContent = msg.content;
+
+        wrap.appendChild(bubble);
+        container.appendChild(wrap);
+
+        container.scrollTop = container.scrollHeight;
+    }
+
+    function closeChat() {
+        document.getElementById('chat-box').style.display = 'none';
+    }
+
+    document.getElementById('chat-input')?.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") sendMessage();
+    });
+</script>
+
+<jsp:include page="../common/footer.jsp"/>

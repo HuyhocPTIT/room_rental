@@ -111,6 +111,7 @@ public class RoomDetailController {
             dto.setOwnerPhone(profile.getPhoneNumber());
             dto.setOwnerEmail(profile.getEmail());
             dto.setOwnerAvatar(profile.getAvatar());
+            dto.setOwnerId(owner.getId());
         }
 
         // Location
