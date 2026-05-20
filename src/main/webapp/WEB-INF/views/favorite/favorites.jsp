@@ -30,8 +30,8 @@
                 <c:forEach var="post" items="${roomPosts}">
                     <c:choose>
                         <c:when test="${post.category == 'APARTMENT'}"><c:set var="catCode" value="chungcu" /></c:when>
-                        <c:when test="${post.category == 'HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
-                        <c:when test="${post.category == 'VILLA'}"><c:set var="catCode" value="nguyen" /></c:when>
+                        <c:when test="${post.category == 'MINI_APARTMENT'}"><c:set var="catCode" value="mini" /></c:when>
+                        <c:when test="${post.category == 'WHOLE_HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
                         <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
                     </c:choose>
 
@@ -61,8 +61,8 @@
                                 <div class="card-tag">
                                     <c:choose>
                                         <c:when test="${post.category == 'APARTMENT'}">Chung cư</c:when>
-                                        <c:when test="${post.category == 'HOUSE'}">Nguyên căn</c:when>
-                                        <c:when test="${post.category == 'VILLA'}">Biệt thự</c:when>
+                                        <c:when test="${post.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
+                                        <c:when test="${post.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
                                         <c:otherwise>Phòng trọ</c:otherwise>
                                     </c:choose>
                                 </div>

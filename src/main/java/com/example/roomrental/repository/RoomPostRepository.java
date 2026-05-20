@@ -1,6 +1,7 @@
 package com.example.roomrental.repository;
 
 import com.example.roomrental.constant.PostStatus;
+import com.example.roomrental.constant.RoomCategory;
 import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,5 @@ public interface RoomPostRepository extends JpaRepository<RoomPost, Long> {
     Page<RoomPost> findByStatus(PostStatus status, Pageable pageable);
 
     List<RoomPost> findByUserOrderByCreatedAtDesc(User user);
+    Page<RoomPost> findByStatusAndCategory(PostStatus status, RoomCategory category, Pageable pageable);
 }

@@ -41,19 +41,19 @@
     <h2>Phòng nổi bật <span class="tag-moi">Mới</span></h2>
     <p class="subtitle">Được cập nhật và xác minh bởi đội ngũ TrọTốt</p>
     <div class="cats" id="cats">
-        <div class="cat active" onclick="filterRooms('all', this)">Tất cả</div>
-        <div class="cat" onclick="filterRooms('phongtro', this)">Phòng trọ</div>
-        <div class="cat" onclick="filterRooms('mini', this)">Căn hộ mini</div>
-        <div class="cat" onclick="filterRooms('chungcu', this)">Chung cư</div>
-        <div class="cat" onclick="filterRooms('nguyen', this)">Nhà nguyên căn</div>
+        <a href="/" style="text-decoration: none" class="cat ${empty currentCategory ? 'active' : ''}">Tất cả</a>
+        <a href="/?category=MOTEL_ROOM" style="text-decoration: none" class="cat ${currentCategory == 'MOTEL_ROOM' ? 'active' : ''}">Phòng trọ</a>
+        <a href="/?category=MINI_APARTMENT" style="text-decoration: none" class="cat ${currentCategory == 'MINI_APARTMENT' ? 'active' : ''}">Căn hộ mini</a>
+        <a href="/?category=APARTMENT" style="text-decoration: none" class="cat ${currentCategory == 'APARTMENT' ? 'active' : ''}">Chung cư</a>
+        <a href="/?category=WHOLE_HOUSE" style="text-decoration: none" class="cat ${currentCategory == 'WHOLE_HOUSE' ? 'active' : ''}">Nhà nguyên căn</a>
     </div>
     <div class="cards" id="cards">
         <c:forEach var="post" items="${roomPosts}">
 
             <c:choose>
                 <c:when test="${post.category == 'APARTMENT'}"><c:set var="catCode" value="chungcu" /></c:when>
-                <c:when test="${post.category == 'HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
-                <c:when test="${post.category == 'VILLA'}"><c:set var="catCode" value="nguyen" /></c:when>
+                <c:when test="${post.category == 'MINI_APARTMENT'}"><c:set var="catCode" value="mini" /></c:when>
+                <c:when test="${post.category == 'WHOLE_HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
                 <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
             </c:choose>
 
@@ -70,7 +70,7 @@
                             </div>
                         </c:otherwise>
                     </c:choose>
-                    <button class="save-btn ${savedPostIds.contains(post.id) ? 'saved' : ''}" type="button" onclick="toggleSave(event, ${post.id})" title="Lưu phòng">
+                    <button class="save-btn ${savedPostIds.contains(post.id) ? 'saved' : ''}" type="button" onclick="toggleSave(event, '${post.id}')" title="Lưu phòng">
                         <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;height:24px;width:24px;stroke-width:2;overflow:visible;"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path></svg>
                     </button>
                 </div>
@@ -87,8 +87,8 @@
                         <div class="card-tag">
                             <c:choose>
                                 <c:when test="${post.category == 'APARTMENT'}">Chung cư</c:when>
-                                <c:when test="${post.category == 'HOUSE'}">Nguyên căn</c:when>
-                                <c:when test="${post.category == 'VILLA'}">Biệt thự</c:when>
+                                <c:when test="${post.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
+                                <c:when test="${post.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
                                 <c:otherwise>Phòng trọ</c:otherwise>
                             </c:choose>
                         </div>
@@ -104,16 +104,20 @@
 
     <c:if test="${totalPages > 1}">
         <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px;">
+            <c:set var="catParam" value="" />
+            <c:if test="${not empty currentCategory}">
+                <c:set var="catParam" value="&category=${currentCategory}" />
+            </c:if>
             <c:if test="${currentPage > 0}">
-                <a href="?page=${currentPage - 1}" class="site-btn site-btn-outline" style="padding: 8px 16px;">&laquo; Trước</a>
+                <a href="?page=${currentPage - 1}${catParam}" class="site-btn site-btn-outline" style="padding: 8px 16px;">&laquo; Trước</a>
             </c:if>
             
             <c:forEach begin="0" end="${totalPages - 1}" var="i">
-                <a href="?page=${i}" class="site-btn ${currentPage == i ? '' : 'site-btn-outline'}" style="padding: 8px 16px;">${i + 1}</a>
+                <a href="?page=${i}${catParam}" class="site-btn ${currentPage == i ? '' : 'site-btn-outline'}" style="padding: 8px 16px;">${i + 1}</a>
             </c:forEach>
             
             <c:if test="${currentPage < totalPages - 1}">
-                <a href="?page=${currentPage + 1}" class="site-btn site-btn-outline" style="padding: 8px 16px;">Sau &raquo;</a>
+                <a href="?page=${currentPage + 1}${catParam}" class="site-btn site-btn-outline" style="padding: 8px 16px;">Sau &raquo;</a>
             </c:if>
         </div>
     </c:if>
@@ -135,22 +139,6 @@
     <button type="button" onclick="location.href='<c:url value='/post-room'/>'">Đăng tin ngay - Miễn phí</button>
 </div>
 <script>
-    function filterRooms(catCode, element) {
-        document.querySelectorAll('.cat').forEach(function(el) {
-            el.classList.remove('active');
-        });
-        element.classList.add('active');
-        
-        var cards = document.querySelectorAll('.room-card');
-        cards.forEach(function(card) {
-            if (catCode === 'all' || card.getAttribute('data-category') === catCode) {
-                card.style.display = '';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
     function toggleSave(event, postId) {
         event.stopPropagation(); // Ngăn click nhầm vào card chuyển sang trang chi tiết
         var btn = event.currentTarget;

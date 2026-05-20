@@ -80,7 +80,16 @@
                 </div>
                 <div class="room-specs">
                     <span class="spec-item">📐 ${roomDetail.area} m²</span>
-                    <span class="spec-item">🏷️ ${roomDetail.category}</span>
+<%--                    <span class="spec-item">🏷️ ${roomDetail.category}</span>--%>
+                    <span class="spec-item">🏷️
+                        <c:choose>
+                            <c:when test="${roomDetail.category == 'APARTMENT'}">Chung cư</c:when>
+                            <c:when test="${roomDetail.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
+                            <c:when test="${roomDetail.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
+                            <c:otherwise>Phòng trọ</c:otherwise>
+                        </c:choose>
+                    </span>
+
                 </div>
             </div>
 
@@ -139,7 +148,6 @@
                 </div>
             </div>
 
-            <!-- Booking and Reviews removed from detail page -->
         </section>
     </div>
 
@@ -160,7 +168,14 @@
                     </div>
                     <div class="info-row">
                         <span class="label">Loại phòng:</span>
-                        <span class="value">${roomDetail.category}</span>
+                        <span class="value">
+                            <c:choose>
+                                <c:when test="${roomDetail.category == 'APARTMENT'}">Chung cư</c:when>
+                                <c:when test="${roomDetail.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
+                                <c:when test="${roomDetail.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
+                                <c:otherwise>Phòng trọ</c:otherwise>
+                            </c:choose>
+                        </span>
                     </div>
                     <div class="info-row">
                         <span class="label">Đăng lúc:</span>

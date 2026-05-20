@@ -77,7 +77,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                 "0912345678",
                 "0912345678",
                 PostStatus.ACTIVE,
-                RoomCategory.OTHER
+                RoomCategory.MOTEL_ROOM
         );
         addImages(postOne, DEFAULT_IMAGE_URL, DEFAULT_IMAGE_URL);
 
@@ -92,7 +92,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                 "0912345678",
                 "0912345678",
                 PostStatus.ACTIVE,
-                RoomCategory.APARTMENT
+                RoomCategory.MINI_APARTMENT
         );
         addImages(postTwo, DEFAULT_IMAGE_URL, DEFAULT_IMAGE_URL);
 
@@ -107,7 +107,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                 "0987654321",
                 "0987654321",
                 PostStatus.ACTIVE,
-                RoomCategory.APARTMENT
+                RoomCategory.MINI_APARTMENT
         );
         addImages(postThree, DEFAULT_IMAGE_URL, DEFAULT_IMAGE_URL);
 
@@ -122,7 +122,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                 "0987654321",
                 "0987654321",
                 PostStatus.ACTIVE,
-                RoomCategory.OTHER
+                RoomCategory.MOTEL_ROOM
         );
         addImages(postFour, DEFAULT_IMAGE_URL);
 
@@ -137,7 +137,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                 "0987654321",
                 "0987654321",
                 PostStatus.ACTIVE,
-                RoomCategory.HOUSE
+                RoomCategory.WHOLE_HOUSE
         );
         addImages(postFive, DEFAULT_IMAGE_URL);
 
@@ -154,7 +154,7 @@ public class SampleDataSeeder implements CommandLineRunner {
                     "0900000000",
                     "0900000000",
                     PostStatus.ACTIVE,
-                    (i % 3 == 0) ? RoomCategory.APARTMENT : RoomCategory.OTHER
+                    (i % 3 == 0) ? RoomCategory.MINI_APARTMENT : RoomCategory.MOTEL_ROOM
             );
             addImages(dummyPost, DEFAULT_IMAGE_URL);
         }
