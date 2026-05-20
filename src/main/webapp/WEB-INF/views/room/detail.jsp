@@ -58,7 +58,7 @@
                 </div>
                 <div class="room-actions">
                     <button class="action-btn favorite-btn${roomDetail.favorite ? ' favorited' : ''}"
-                            onclick="toggleFavorite(event, ${roomDetail.id})">
+                            onclick="toggleFavorite(event, '${roomDetail.id}')">
                         <span class="heart-icon" id="favoriteIcon">
                             <c:choose>
                                 <c:when test="${roomDetail.favorite}">❤️</c:when>
@@ -247,48 +247,49 @@
         const icon = document.getElementById('favoriteIcon');
         const text = document.getElementById('favoriteText');
         const isFavorited = btn.classList.contains('favorited');
-
-        if (!isFavorited) {
-            fetch('/room/' + roomId + '/favorite/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+        const endpoint = isFavorited ? '/room/' + roomId + '/favorite/remove' : '/room/' + roomId + '/favorite/add';
+        
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (isFavorited) {
+                    icon.textContent = '♡';
+                    text.textContent = 'Lưu phòng';
+                    btn.classList.remove('favorited');
+                } else {
+                    icon.textContent = '❤️';
+                    text.textContent = 'Đã lưu';
+                    btn.classList.add('favorited');
                 }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        icon.textContent = '❤️';
-                        text.textContent = 'Đã lưu';
-                        btn.classList.add('favorited');
+            } else if (data.message === "Vui lòng đăng nhập") {
+                Swal.fire({
+                    title: 'Yêu cầu đăng nhập',
+                    text: 'Bạn cần đăng nhập để lưu phòng này nhé!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ff385c',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Đăng nhập ngay',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/auth/login';
                     }
-                    alert(data.message);
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Lỗi mạng, vui lòng thử lại.');
                 });
-        } else {
-            fetch('/room/' + roomId + '/favorite/remove', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        icon.textContent = '♡';
-                        text.textContent = 'Lưu phòng';
-                        btn.classList.remove('favorited');
-                    }
-                    alert(data.message);
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Lỗi mạng, vui lòng thử lại.');
-                });
-        }
+            } else {
+                Swal.fire('Thông báo', data.message, 'info');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            Swal.fire('Lỗi', 'Lỗi mạng, vui lòng thử lại.', 'error');
+        });
     }
 
     function copyToClipboard(text) {
