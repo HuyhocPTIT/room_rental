@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="pageTitle" value="${roomDetail.title} - TrọTốt" scope="request"/>
 <c:set var="bodyClass" value="room-detail-page" scope="request"/>
 <c:set var="mainClass" value="room-detail-main" scope="request"/>
@@ -97,6 +98,30 @@
             <div class="room-description">
                 <h2>Mô tả chi tiết</h2>
                 <p>${roomDetail.description}</p>
+            </div>
+
+            <c:set var="fullLocation" value="${roomDetail.address}, ${roomDetail.ward}, ${roomDetail.district}, ${roomDetail.city}" />
+            <c:set var="mapQuery" value="${fn:replace(fullLocation, ' ', '+')}" />
+
+            <div class="location-section">
+                <h2>Vị trí & bản đồ</h2>
+                <div class="location-summary">
+                    <div class="location-text">
+                        <span class="location-label">Địa chỉ:</span>
+                        <span class="location-address">📍 ${roomDetail.address}
+                            <c:if test="${not empty roomDetail.ward}">, ${roomDetail.ward}</c:if>
+                            <c:if test="${not empty roomDetail.district}">, ${roomDetail.district}</c:if>
+                            <c:if test="${not empty roomDetail.city}">, ${roomDetail.city}</c:if>
+                        </span>
+                    </div>
+                    <a class="map-link" href="https://maps.google.com/maps?q=${mapQuery}" target="_blank" rel="noopener">Xem bản đồ lớn</a>
+                </div>
+                <div class="map-frame">
+                    <iframe
+                            src="https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                            allowfullscreen=""
+                            loading="lazy"></iframe>
+                </div>
             </div>
 
             <!-- Contact Info -->
