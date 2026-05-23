@@ -30,19 +30,25 @@ public class HomeController {
     private FavoriteService favoriteService;
 
     @GetMapping("/")
-    public String home(@RequestParam(defaultValue = "0") int page,
-                       @RequestParam(defaultValue = "6") int size,
+    public String home(@RequestParam(required = false) String province,
+                       @RequestParam(required = false) String priceRange,
                        @RequestParam(required = false) RoomCategory category,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "6") int size,
                        HttpSession session,
                        Model model) {
-        Page<RoomPost> roomPage = roomPostService.getActivePostsByCategory(category, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        Page<RoomPost> roomPage = roomPostService.searchPosts(province, priceRange, category, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
         model.addAttribute("roomPosts", roomPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", roomPage.getTotalPages());
-        model.addAttribute("currentCategory", category);
+        model.addAttribute("province", province);
+        model.addAttribute("priceRange", priceRange);
+        model.addAttribute("category", category);
 
+        // Khởi tạo một list rỗng
         List<Long> savedPostIds = new ArrayList<>();
 
+        // Kiểm tra xem có user đăng nhập không
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser != null) {
             // Lấy danh sách các bài đăng mà user này đã lưu

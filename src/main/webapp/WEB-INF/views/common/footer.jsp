@@ -35,5 +35,6 @@
 </footer>
 <div class="site-footer-bottom">© 2026 TrọTốt - Tìm phòng trọ dễ dàng. Mọi quyền được bảo lưu.</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

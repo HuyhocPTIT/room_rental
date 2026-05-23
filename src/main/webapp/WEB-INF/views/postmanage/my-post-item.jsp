@@ -39,10 +39,10 @@
 
                 <div class="badge mb-2" style="background:#e0f2fe; color:#0369a1;">
                     <c:choose>
-                        <c:when test="${room.category.name() == 'ROOM'}">Phòng trọ</c:when>
-                        <c:when test="${room.category.name() == 'APARTMENT'}">Căn hộ mini</c:when>
-                        <c:when test="${room.category.name() == 'HOUSE'}">Nhà nguyên căn</c:when>
-                        <c:when test="${room.category.name() == 'VILLA'}">Biệt thự</c:when>
+                        <c:when test="${room.category.name() == 'MOTEL_ROOM'}">Phòng trọ</c:when>
+                        <c:when test="${room.category.name() == 'MINI_APARTMENT'}">Chung cư mini</c:when>
+                        <c:when test="${room.category.name() == 'APARTMENT'}">Chung cư</c:when>
+                        <c:when test="${room.category.name() == 'WHOLE_HOUSE'}">Nhà nguyên căn</c:when>
                         <c:otherwise>Khác</c:otherwise>
                     </c:choose>
                 </div>

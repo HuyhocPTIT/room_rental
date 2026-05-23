@@ -152,10 +152,10 @@
                     <label for="roomCategory">Loại phòng</label>
                     <select id="roomCategory" name="category" required>
                         <option value="" disabled selected>-- Chọn loại phòng --</option>
-                        <option value="ROOM">Phòng trọ</option>
-                        <option value="APARTMENT">Căn hộ mini</option>
-                        <option value="HOUSE">Nhà nguyên căn</option>
-                        <option value="VILLA">Biệt thự</option>
+                        <option value="MOTEL_ROOM">Phòng trọ</option>
+                        <option value="MINI_APARTMENT">Căn hộ mini</option>
+                        <option value="APARTMENT">Chung cư</option>
+                        <option value="WHOLE_HOUSE">Nhà nguyên căn</option>
                     </select>
                 </div>
 
@@ -420,10 +420,10 @@
                         <div class="f-group">
                             <label for="editRoomCategory">Loại phòng</label>
                             <select id="editRoomCategory" name="category" required>
-                                <option value="ROOM">Phòng trọ</option>
-                                <option value="APARTMENT">Căn hộ mini</option>
-                                <option value="HOUSE">Nhà nguyên căn</option>
-                                <option value="VILLA">Biệt thự</option>
+                                <option value="MOTEL_ROOM">Phòng trọ</option>
+                                <option value="MINI_APARTMENT">Chung cư mini</option>
+                                <option value="APARTMENT">Chung cư</option>
+                                <option value="WHOLE_HOUSE">Nhà nguyên căn</option>
                             </select>
                         </div>
 

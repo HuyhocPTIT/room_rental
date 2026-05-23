@@ -51,7 +51,7 @@ public class PostController {
         }
 
         if (!UserRole.LANDLORD.equals(currentUser.getRole())) {
-            return "redirect:/home?error=no_permission";
+            return "redirect:/?error=no_permission";
         }
 
         // Lấy danh sách phòng trọ của User
@@ -74,15 +74,14 @@ public class PostController {
             @RequestParam("address") String address,
             @RequestParam("category") String category,
             @RequestParam("price") float price,
-            @RequestParam("area") Integer area,             // 🌟 Bổ sung nhận diện Diện tích
-            @RequestParam("locationId") Long locationId,   // 🌟 Bổ sung nhận diện ID Khu vực
-            @RequestParam("phone") String phone,           // 🌟 Bổ sung nhận diện SĐT
+            @RequestParam("area") Integer area, // 🌟 Bổ sung nhận diện Diện tích
+            @RequestParam("locationId") Long locationId, // 🌟 Bổ sung nhận diện ID Khu vực
+            @RequestParam("phone") String phone, // 🌟 Bổ sung nhận diện SĐT
             @RequestParam(value = "zalo", required = false) String zalo, // 🌟 Bổ sung nhận diện Zalo (Không bắt buộc)
             @RequestParam(value = "images", required = false) List<MultipartFile> images,
-            @RequestParam("description")  String description,
+            @RequestParam("description") String description,
             HttpSession session,
-            RedirectAttributes redirectAttributes
-    ) {
+            RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute(SessionAttribute.CURRENT_USER);
         if (user == null) {
             return "redirect:/auth/login";
@@ -151,8 +150,7 @@ public class PostController {
             @RequestParam("description") String description,
             @RequestParam(value = "images", required = false) MultipartFile[] images,
             @RequestParam("locationId") Long locationId,
-            HttpSession session
-    ) {
+            HttpSession session) {
         RoomPost room = postService.findById(id);
         if (room != null) {
             room.setTitle(title);
@@ -180,7 +178,7 @@ public class PostController {
 
     @GetMapping("/delete-post/{id}")
     public String deleteRoom(@PathVariable Long id,
-                             RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
         try {
             RoomPost post = postService.findById(id);
             if (post != null) {

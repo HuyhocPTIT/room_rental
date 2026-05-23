@@ -1,7 +1,6 @@
 package com.example.roomrental.service;
 
 import com.example.roomrental.entity.Location;
-import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

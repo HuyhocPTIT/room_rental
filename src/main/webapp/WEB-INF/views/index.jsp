@@ -8,44 +8,54 @@
 <section class="hero">
     <h1>Tìm <span>phòng trọ</span> ưng ý<br>chỉ trong vài giây</h1>
     <p>Hàng nghìn phòng trọ, căn hộ mini tại Việt Nam - cập nhật mỗi ngày</p>
-    <div class="search-box">
-        <select id="sel-tinh">
+    <form action="/" method="get" class="search-box">
+        <select name="province" id="sel-tinh">
             <option value="">📍 Tỉnh / Thành phố</option>
-            <option>Hà Nội</option>
-            <option>TP. Hồ Chí Minh</option>
-            <option>Đà Nẵng</option>
-            <option>Cần Thơ</option>
-            <option>Hải Phòng</option>
-            <option>Phú Thọ</option>
+            <option value="Hà Nội" ${province == 'Hà Nội' ? 'selected' : ''}>Hà Nội</option>
+            <option value="Hồ Chí Minh" ${province == 'Hồ Chí Minh' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
+            <option value="Đà Nẵng" ${province == 'Đà Nẵng' ? 'selected' : ''}>Đà Nẵng</option>
+            <option value="Cần Thơ" ${province == 'Cần Thơ' ? 'selected' : ''}>Cần Thơ</option>
+            <option value="Hải Phòng" ${province == 'Hải Phòng' ? 'selected' : ''}>Hải Phòng</option>
         </select>
-        <select id="sel-gia">
+
+        <select name="priceRange" id="sel-gia">
             <option value="">💰 Mức giá</option>
-            <option>Dưới 1 triệu</option>
-            <option>1 - 2 triệu</option>
-            <option>2 - 3 triệu</option>
-            <option>3 - 5 triệu</option>
-            <option>Trên 5 triệu</option>
+            <option value="1" ${priceRange == '1' ? 'selected' : ''}>Dưới 1 triệu</option>
+            <option value="2" ${priceRange == '2' ? 'selected' : ''}>1 - 2 triệu</option>
+            <option value="3" ${priceRange == '3' ? 'selected' : ''}>2 - 3 triệu</option>
+            <option value="4" ${priceRange == '4' ? 'selected' : ''}>3 - 5 triệu</option>
+            <option value="5" ${priceRange == '5' ? 'selected' : ''}>Trên 5 triệu</option>
         </select>
-        <select id="sel-loai">
+
+        <select name="category" id="sel-loai">
             <option value="">🏠 Loại phòng</option>
-            <option>Phòng trọ</option>
-            <option>Căn hộ mini</option>
-            <option>Chung cư</option>
-            <option>Nhà nguyên căn</option>
+            <option value="MOTEL_ROOM" ${category == 'MOTEL_ROOM' ? 'selected' : ''}>Phòng trọ</option>
+            <option value="MINI_APARTMENT" ${category == 'MINI_APARTMENT' ? 'selected' : ''}>Căn hộ mini</option>
+            <option value="APARTMENT" ${category == 'APARTMENT' ? 'selected' : ''}>Chung cư</option>
+            <option value="WHOLE_HOUSE" ${category == 'WHOLE_HOUSE' ? 'selected' : ''}>Nhà nguyên căn</option>
         </select>
-        <button class="search-btn" type="button">🔍 Tìm ngay</button>
-    </div>
+
+        <button class="search-btn" type="submit">🔍 Tìm ngay</button>
+    </form>
 </section>
 
 <section id="featured-rooms">
     <h2>Phòng nổi bật <span class="tag-moi">Mới</span></h2>
     <p class="subtitle">Được cập nhật và xác minh bởi đội ngũ TrọTốt</p>
     <div class="cats" id="cats">
-        <a href="/" style="text-decoration: none" class="cat ${empty currentCategory ? 'active' : ''}">Tất cả</a>
-        <a href="/?category=MOTEL_ROOM" style="text-decoration: none" class="cat ${currentCategory == 'MOTEL_ROOM' ? 'active' : ''}">Phòng trọ</a>
-        <a href="/?category=MINI_APARTMENT" style="text-decoration: none" class="cat ${currentCategory == 'MINI_APARTMENT' ? 'active' : ''}">Căn hộ mini</a>
-        <a href="/?category=APARTMENT" style="text-decoration: none" class="cat ${currentCategory == 'APARTMENT' ? 'active' : ''}">Chung cư</a>
-        <a href="/?category=WHOLE_HOUSE" style="text-decoration: none" class="cat ${currentCategory == 'WHOLE_HOUSE' ? 'active' : ''}">Nhà nguyên căn</a>
+        <c:set var="baseQuery" value="" />
+        <c:if test="${not empty province}">
+            <c:set var="baseQuery" value="${baseQuery}&province=${province}" />
+        </c:if>
+        <c:if test="${not empty priceRange}">
+            <c:set var="baseQuery" value="${baseQuery}&priceRange=${priceRange}" />
+        </c:if>
+        
+        <a href="/?${not empty baseQuery ? baseQuery.substring(1) : ''}" style="text-decoration: none" class="cat ${empty category ? 'active' : ''}">Tất cả</a>
+        <a href="/?category=MOTEL_ROOM${baseQuery}" style="text-decoration: none" class="cat ${category == 'MOTEL_ROOM' ? 'active' : ''}">Phòng trọ</a>
+        <a href="/?category=MINI_APARTMENT${baseQuery}" style="text-decoration: none" class="cat ${category == 'MINI_APARTMENT' ? 'active' : ''}">Căn hộ mini</a>
+        <a href="/?category=APARTMENT${baseQuery}" style="text-decoration: none" class="cat ${category == 'APARTMENT' ? 'active' : ''}">Chung cư</a>
+        <a href="/?category=WHOLE_HOUSE${baseQuery}" style="text-decoration: none" class="cat ${category == 'WHOLE_HOUSE' ? 'active' : ''}">Nhà nguyên căn</a>
     </div>
     <div class="cards" id="cards">
         <c:forEach var="post" items="${roomPosts}">
@@ -104,20 +114,20 @@
 
     <c:if test="${totalPages > 1}">
         <div class="pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 40px;">
-            <c:set var="catParam" value="" />
-            <c:if test="${not empty currentCategory}">
-                <c:set var="catParam" value="&category=${currentCategory}" />
+            <c:set var="fullQuery" value="${baseQuery}" />
+            <c:if test="${not empty category}">
+                <c:set var="fullQuery" value="${fullQuery}&category=${category}" />
             </c:if>
             <c:if test="${currentPage > 0}">
-                <a href="?page=${currentPage - 1}${catParam}" class="site-btn site-btn-outline" style="padding: 8px 16px;">&laquo; Trước</a>
+                <a href="?page=${currentPage - 1}${fullQuery}" class="site-btn site-btn-outline" style="padding: 8px 16px;">&laquo; Trước</a>
             </c:if>
             
             <c:forEach begin="0" end="${totalPages - 1}" var="i">
-                <a href="?page=${i}${catParam}" class="site-btn ${currentPage == i ? '' : 'site-btn-outline'}" style="padding: 8px 16px;">${i + 1}</a>
+                <a href="?page=${i}${fullQuery}" class="site-btn ${currentPage == i ? '' : 'site-btn-outline'}" style="padding: 8px 16px;">${i + 1}</a>
             </c:forEach>
             
             <c:if test="${currentPage < totalPages - 1}">
-                <a href="?page=${currentPage + 1}${catParam}" class="site-btn site-btn-outline" style="padding: 8px 16px;">Sau &raquo;</a>
+                <a href="?page=${currentPage + 1}${fullQuery}" class="site-btn site-btn-outline" style="padding: 8px 16px;">Sau &raquo;</a>
             </c:if>
         </div>
     </c:if>
@@ -136,7 +146,7 @@
 <div class="cta-banner" id="post-room">
     <h2>Bạn có phòng muốn cho thuê?</h2>
     <p>Đăng tin miễn phí, tiếp cận hàng chục nghìn người thuê tiềm năng mỗi ngày</p>
-    <button type="button" onclick="location.href='<c:url value='/post-room'/>'">Đăng tin ngay - Miễn phí</button>
+    <button type="button" onclick="location.href='<c:url value='/post-management?action=create'/>'">Đăng tin ngay - Miễn phí</button>
 </div>
 <script>
     function toggleSave(event, postId) {
@@ -145,23 +155,33 @@
 
         // Gọi API lên server
         fetch('/favorites/toggle?postId=' + postId, {
-            method: 'POST' // (Hoặc GET tùy thuộc vào Controller của bạn)
+            method: 'POST'
         })
             .then(response => {
                 if (response.ok) {
-                    // Đổi màu trái tim (tắt/bật class 'saved') khi server xử lý thành công
                     btn.classList.toggle('saved');
                 } else if (response.status === 401 || response.status === 403) {
-                    // Nếu chưa đăng nhập
-                    alert("Bạn cần đăng nhập để lưu phòng này nhé!");
-                    window.location.href = '/auth/login';
+                    Swal.fire({
+                        title: 'Yêu cầu đăng nhập',
+                        text: 'Bạn cần đăng nhập để lưu phòng này nhé!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ff385c',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Đăng nhập ngay',
+                        cancelButtonText: 'Hủy bỏ'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '/auth/login';
+                        }
+                    });
                 } else {
-                    alert("Có lỗi xảy ra khi lưu phòng, vui lòng thử lại.");
+                    Swal.fire('Lỗi', 'Có lỗi xảy ra khi lưu phòng, vui lòng thử lại.', 'error');
                 }
             })
             .catch(error => {
                 console.error('Lỗi khi lưu phòng:', error);
-                alert("Không thể kết nối đến máy chủ.");
+                Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ.', 'error');
             });
     }
 </script>

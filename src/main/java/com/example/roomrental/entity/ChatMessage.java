@@ -35,6 +35,7 @@ public class ChatMessage {
     private LocalDateTime timestamp;
 
     @Column(name = "is_read")
+    @Builder.Default
     private boolean isRead = false;
 
     @PrePersist

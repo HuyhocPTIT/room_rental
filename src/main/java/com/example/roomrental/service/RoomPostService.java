@@ -35,4 +35,23 @@ public class RoomPostService {
     public Optional<RoomPost> getRoomPostById(Long id) {
         return roomPostRepository.findById(id);
     }
+
+    public Page<RoomPost> searchPosts (String province, String priceRange, RoomCategory category, Pageable pageable) {
+        if (province != null && province.trim().isEmpty()) province = null;
+
+        Double minPrice = null;
+        Double maxPrice = null;
+        if (priceRange != null && !priceRange.trim().isEmpty()) {
+            switch (priceRange) {
+                case "1": maxPrice = 1000000.0; break;
+                case "2": minPrice = 1000000.0; maxPrice = 2000000.0; break;
+                case "3": minPrice = 2000000.0; maxPrice = 3000000.0; break;
+                case "4": minPrice = 3000000.0; maxPrice = 5000000.0; break;
+                case "5": minPrice = 5000000.0; break;
+                default: break;
+            }
+        }
+
+        return roomPostRepository.searchActivePosts(PostStatus.ACTIVE, province, category, minPrice, maxPrice, pageable);
+    }
 }
