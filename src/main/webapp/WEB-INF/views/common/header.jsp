@@ -37,7 +37,7 @@
                 <a class="site-btn" href="<c:url value='/auth/register'/>">Đăng ký</a>
             </c:otherwise>
         </c:choose>
-        <a class="site-btn" href="<c:url value='/post-room'/>" style="background-color: #ff385c; border-color: #ff385c; color: white;">Đăng tin</a>
+        <a class="site-btn" href="<c:url value='/post-management?action=create'/>" style="background-color: #ff385c; border-color: #ff385c; color: white;">Đăng tin</a>
     </div>
 </nav>
 <main class="${empty mainClass ? 'container my-4' : mainClass}">

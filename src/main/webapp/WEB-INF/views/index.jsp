@@ -146,7 +146,7 @@
 <div class="cta-banner" id="post-room">
     <h2>Bạn có phòng muốn cho thuê?</h2>
     <p>Đăng tin miễn phí, tiếp cận hàng chục nghìn người thuê tiềm năng mỗi ngày</p>
-    <button type="button" onclick="location.href='<c:url value='/post-room'/>'">Đăng tin ngay - Miễn phí</button>
+    <button type="button" onclick="location.href='<c:url value='/post-management?action=create'/>'">Đăng tin ngay - Miễn phí</button>
 </div>
 <script>
     function toggleSave(event, postId) {
