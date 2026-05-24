@@ -266,6 +266,10 @@
             });
             imageInput.files = dataTransfer.files;
         });
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('action') === 'create') {
+            openPostModal();
+        }
     });
 
     function renderImages() {
