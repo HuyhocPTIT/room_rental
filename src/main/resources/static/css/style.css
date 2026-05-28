@@ -747,3 +747,65 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* CSS Nút chuông viền tròn xám */
+.notification-bell-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #e0e0e0;
+    border-radius: 50%;
+    color: #495057;
+    position: relative;
+    transition: all 0.2s ease;
+    background: none;
+    padding: 0;
+}
+
+.notification-bell-btn:hover, .notification-bell-btn:focus {
+    background-color: #f8f9fa;
+    border-color: #cccccc;
+    color: #212529;
+}
+
+.notification-bell-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* Chấm đỏ định vị theo cấu trúc mới */
+#notify-dot {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 9px;
+    height: 9px;
+    background-color: #dc3545;
+    border-radius: 50%;
+    border: 1px solid #ffffff;
+    display: none;
+}
+
+/* Tùy chỉnh danh sách thông báo */
+.dropdown-menu-end {
+    right: 0;
+    left: auto;
+}
+
+#notification-items {
+    max-height: 360px;
+    overflow-y: auto;
+    padding-left: 0; /* Xóa khoảng trống thụt lề mặc định của ul */
+}
+
+#notification-items .dropdown-item {
+    white-space: normal;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+#notification-items li:last-child .dropdown-item {
+    border-bottom: none;
+}
