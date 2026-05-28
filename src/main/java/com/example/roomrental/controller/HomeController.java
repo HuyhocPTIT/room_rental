@@ -1,23 +1,26 @@
 package com.example.roomrental.controller;
 
 import com.example.roomrental.constant.RoomCategory;
+import com.example.roomrental.entity.Notification;
 import com.example.roomrental.entity.RoomPost;
 import com.example.roomrental.entity.User;
 import com.example.roomrental.service.FavoriteService;
+import com.example.roomrental.service.NotificationService;
 import com.example.roomrental.service.RoomPostService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -28,6 +31,9 @@ public class HomeController {
 
     @Autowired
     private FavoriteService favoriteService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/")
     public String home(@RequestParam(required = false) String province,
@@ -57,5 +63,34 @@ public class HomeController {
 
         model.addAttribute("savedPostIds", savedPostIds);
         return "index";
+    }
+
+    @GetMapping("/notifications/api")
+    @ResponseBody
+    public List<Map<String, Object>> getNotifications(HttpSession session) {
+
+        User currentUser = (User) session.getAttribute("currentUser");
+
+        List<Notification> list =
+                notificationService.getTop5ByReceiver(currentUser.getId());
+        //log.debug(list.toString());
+        return list.stream().map(n -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", n.getId());
+            map.put("type", n.getType().name());
+            map.put("content", n.getContent());
+            map.put("read", n.getIsRead());
+            map.put("receiverId", n.getReceiver().getId());
+            map.put("senderId", n.getSender().getId());
+            map.put("senderName", n.getSender().getUsername());
+            map.put("receiverName", n.getReceiver().getUsername());
+            return map;
+        }).toList();
+    }
+
+    @PostMapping("/notifications/read/{id}")
+    @ResponseBody
+    public void markAsRead(@PathVariable Long id) {
+        notificationService.markAsRead(id);
     }
 }

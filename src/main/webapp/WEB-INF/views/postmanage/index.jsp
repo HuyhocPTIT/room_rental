@@ -494,8 +494,15 @@
             const editButton = event.target.closest('.btn-edit-trigger');
 
             if (editButton) {
+
                 event.preventDefault();
                 event.stopPropagation();
+
+                const editInput = document.getElementById("editImageInput");
+
+                if (editInput) {
+                    editInput.value = "";
+                }
 
                 const roomId = editButton.getAttribute('data-id');
                 const roomTitle = editButton.getAttribute('data-title');
@@ -534,6 +541,27 @@
             }
         });
     });
+
+    const editModal = document.getElementById('editPostModal');
+
+    if (editModal) {
+        editModal.addEventListener('hidden.bs.modal', function () {
+
+            const input = document.getElementById("editImageInput");
+
+            if (input) {
+                input.value = "";
+            }
+
+            document.getElementById("editThumbList").innerHTML = "";
+
+            document.getElementById("editMainPreview").innerHTML = `
+            <span style="color:#a0aec0;font-size:14px;">
+                Chưa có ảnh
+            </span>
+        `;
+        });
+    }
 
     function renderEditImages(imagesString) {
         const mainPreview = document.getElementById("editMainPreview");
