@@ -89,10 +89,7 @@
                 data-zalo="${room.zaloContact}"
                 data-location="${room.location.id}"
                 data-description="<c:out value='${room.description}'/>"
-                data-images="
-                <c:forEach var='img' items='${room.roomImages}' varStatus='s'>
-                ${img.id}::${img.imageUrl}<c:if test='${!s.last}'>|</c:if>
-                </c:forEach>
+                data-images="<c:forEach var='img' items='${room.roomImages}' varStatus='s'>${img.id}::${img.imageUrl}<c:if test='${!s.last}'>|</c:if></c:forEach>"
                 ">
             ✏️
         </button>
