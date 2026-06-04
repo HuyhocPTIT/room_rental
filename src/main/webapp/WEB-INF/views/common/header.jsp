@@ -95,7 +95,7 @@
                     <button class="user-dropdown-toggle" onclick="toggleUserDropdown(event)" aria-haspopup="true"
                             aria-expanded="false">
                         <span class="user-avatar">${fn:toUpperCase(fn:substring(sessionScope.currentUser.username, 0, 1))}</span>
-                        <span class="user-dropdown-name">Xin chào, <strong>${sessionScope.currentUser.username}</strong></span>
+                        <span class="user-dropdown-name">Xin chào, <strong>${sessionScope.currentUser.profile.name}</strong></span>
                         <svg class="user-dropdown-caret" width="12" height="12" viewBox="0 0 12 12" fill="none">
                             <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                                   stroke-linejoin="round"/>
@@ -108,9 +108,11 @@
                         <a class="user-dropdown-item" href="<c:url value='/favorites'/>">
                             <span class="user-dropdown-icon">❤️</span> Phòng đã lưu
                         </a>
-                        <a class="user-dropdown-item" href="<c:url value='/post-management'/>">
-                            <span class="user-dropdown-icon">📋</span> Quản lý tin đăng
-                        </a>
+                        <c:if test="${sessionScope.currentUser.role == 'LANDLORD'}">
+                            <a class="user-dropdown-item" href="<c:url value='/post-management'/>">
+                                <span class="user-dropdown-icon">📋</span> Quản lý tin đăng
+                            </a>
+                        </c:if>
                         <div class="user-dropdown-divider"></div>
                         <form action="<c:url value='/auth/logout'/>" method="post" class="m-0">
                             <button type="submit" class="user-dropdown-item user-dropdown-logout">
