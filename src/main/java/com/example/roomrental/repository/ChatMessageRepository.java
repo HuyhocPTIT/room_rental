@@ -15,4 +15,8 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
             "ORDER BY m.timestamp ASC")
     List<ChatMessage> findChatHistory(@Param("u1") Long user1, @Param("u2") Long user2);
 
+    @org.springframework.data.jpa.repository.Modifying
+    @org.springframework.transaction.annotation.Transactional
+    @Query("UPDATE ChatMessage c SET c.isRead = true WHERE c.sender.id = :senderId AND c.receiver.id = :receiverId AND c.isRead = false")
+    void markMessagesAsRead(@Param("senderId") Long senderId, @Param("receiverId") Long receiverId);
 }

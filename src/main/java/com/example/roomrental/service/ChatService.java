@@ -70,4 +70,9 @@ public class ChatService {
     public List<ChatMessage> getChatHistory(Long senderId, Long receiverId) {
         return chatRepository.findChatHistory(senderId, receiverId);
     }
+
+    public void markMessagesAsRead(Long senderId, Long receiverId) {
+        // senderId ở đây là người gửi tin nhắn (người kia), receiverId là người đang đọc (mình)
+        chatRepository.markMessagesAsRead(senderId, receiverId);
+    }
 }
