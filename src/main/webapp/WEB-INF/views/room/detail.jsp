@@ -304,8 +304,10 @@
      position:fixed;
      bottom:20px;
      right:20px;
-     width:340px;
+     width:calc(100% - 40px);
+     max-width:340px;
      height:460px;
+     max-height:80vh;
      z-index:2000;
      font-family: system-ui;
      border-radius:14px;
@@ -389,6 +391,16 @@
 
                 if (chatBox.style.display === 'flex' && isFromCurrentChat) {
                     appendMessage(msg, 'receiver');
+                } else {
+                    Swal.fire({
+                        toast: true,
+                        position: 'bottom-end',
+                        icon: 'info',
+                        title: 'Tin nhắn mới từ ' + (msg.senderName || 'chủ trọ'),
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
                 }
             });
         });
@@ -413,7 +425,7 @@
         document.getElementById('message-container').innerHTML =
             '<div class="text-muted text-center">Đang tải...</div>';
 
-        fetch('/api/chat/history?senderId=' + currentUserId + '&receiverId=' + receiverId)
+        fetch('/api/chat/history?receiverId=' + receiverId)
             .then(async res => {
                 if (!res.ok) {
                     throw new Error("HTTP " + res.status);
@@ -428,6 +440,10 @@
                     const isSender = String(msg.senderId) === String(currentUserId);
                     appendMessage(msg, isSender ? 'sender' : 'receiver');
                 });
+
+                // Đánh dấu đã đọc
+                fetch('/api/chat/mark-read?senderId=' + receiverId, { method: 'POST' })
+                    .catch(e => console.error("Could not mark as read", e));
             })
             .catch(err => {
                 console.error("CHAT HISTORY ERROR:", err);
