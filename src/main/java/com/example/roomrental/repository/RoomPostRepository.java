@@ -26,16 +26,23 @@ public interface RoomPostRepository extends JpaRepository<RoomPost, Long> {
     List<RoomPost> findByUserOrderByCreatedAtDesc(User user);
     Page<RoomPost> findByStatusAndCategory(PostStatus status, RoomCategory category, Pageable pageable);
 
+    @Query("SELECT DISTINCT r.location.city FROM RoomPost r WHERE r.status = :status AND r.location IS NOT NULL")
+    List<String> findDistinctCitiesByStatus(@Param("status") PostStatus status);
+
     @Query("SELECT r FROM RoomPost r WHERE r.status = :status " +
             "AND (:province IS NULL OR r.address LIKE %:province%) " +
             "AND (:category IS NULL OR r.category = :category) " +
             "AND (:minPrice IS NULL OR r.price >= :minPrice) " +
-            "AND (:maxPrice IS NULL OR r.price <= :maxPrice)")
+            "AND (:maxPrice IS NULL OR r.price <= :maxPrice) " +
+            "AND (:minArea IS NULL OR r.area >= :minArea) " +
+            "AND (:maxArea IS NULL OR r.area <= :maxArea)")
     Page<RoomPost> searchActivePosts(
             @Param("status") PostStatus status,
             @Param("province") String province,
             @Param("category") RoomCategory category,
             @Param("minPrice") Double minPrice,
             @Param("maxPrice") Double maxPrice,
+            @Param("minArea") Double minArea,
+            @Param("maxArea") Double maxArea,
             Pageable pageable);
 }

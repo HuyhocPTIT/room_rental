@@ -21,6 +21,10 @@ public class RoomPostService {
         return roomPostRepository.findByStatus(PostStatus.ACTIVE);
     }
 
+    public List<String> getAvailableProvinces() {
+        return roomPostRepository.findDistinctCitiesByStatus(PostStatus.ACTIVE);
+    }
+
     public Page<RoomPost> getActivePosts(Pageable pageable) {
         return roomPostRepository.findByStatus(PostStatus.ACTIVE, pageable);
     }
@@ -36,7 +40,7 @@ public class RoomPostService {
         return roomPostRepository.findById(id);
     }
 
-    public Page<RoomPost> searchPosts (String province, String priceRange, RoomCategory category, Pageable pageable) {
+    public Page<RoomPost> searchPosts (String province, String priceRange, String areaRange, RoomCategory category, Pageable pageable) {
         if (province != null && province.trim().isEmpty()) province = null;
 
         Double minPrice = null;
@@ -52,6 +56,18 @@ public class RoomPostService {
             }
         }
 
-        return roomPostRepository.searchActivePosts(PostStatus.ACTIVE, province, category, minPrice, maxPrice, pageable);
+        Double minArea = null;
+        Double maxArea = null;
+        if (areaRange != null && !areaRange.trim().isEmpty()) {
+            switch (areaRange) {
+                case "1": maxArea = 20.0; break;
+                case "2": minArea = 20.0; maxArea = 30.0; break;
+                case "3": minArea = 30.0; maxArea = 50.0; break;
+                case "4": minArea = 50.0; break;
+                default: break;
+            }
+        }
+
+        return roomPostRepository.searchActivePosts(PostStatus.ACTIVE, province, category, minPrice, maxPrice, minArea, maxArea, pageable);
     }
 }
