@@ -130,22 +130,7 @@
                 <div class="contact-section">
                     <div class="contact-item">
                         <label>Điện thoại:</label>
-                        <span><a href="tel:${roomDetail.phoneContact}"
-                                 class="contact-link">${roomDetail.phoneContact}</a></span>
-                    </div>
-                    <div class="contact-item">
-                        <label>Zalo:</label>
-                        <span>
-                            <c:choose>
-                                <c:when test="${not empty roomDetail.zaloContact}">
-                                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank"
-                                       class="contact-link">${roomDetail.zaloContact}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    Không có
-                                </c:otherwise>
-                            </c:choose>
-                        </span>
+                        <span class="contact-link">${roomDetail.phoneContact}</span>
                     </div>
                 </div>
             </div>
@@ -167,8 +152,7 @@
                     <div class="owner-details">
                         <h3 class="owner-name">${roomDetail.ownerName}</h3>
                         <p class="owner-email">📧 ${roomDetail.ownerEmail}</p>
-                        <p class="owner-phone">📱 <a href="tel:${roomDetail.ownerPhone}"
-                                                    class="contact-link">${roomDetail.ownerPhone}</a></p>
+                        <p class="owner-phone">📱 ${roomDetail.ownerPhone}</p>
                     </div>
                 </div>
             </div>
@@ -210,18 +194,9 @@
             </div>
 
             <div class="sidebar-actions">
-                <button class="action-btn primary-btn" onclick="window.location.href='tel:${roomDetail.phoneContact}'">
-                    📞 Gọi chủ trọ
-                </button>
                 <button class="action-btn secondary-btn" onclick="copyToClipboard('${roomDetail.phoneContact}')">
                     📋 Copy số điện thoại
                 </button>
-                <c:if test="${not empty roomDetail.zaloContact}">
-                    <a href="https://zalo.me/${roomDetail.zaloContact}" target="_blank"
-                       class="action-btn secondary-btn">
-                        💬 Chat Zalo
-                    </a>
-                </c:if>
                 <button class="action-btn secondary-btn"
                         onclick="openChat('${roomDetail.ownerId}', '${roomDetail.ownerName}')">
                     💬 Nhắn tin
