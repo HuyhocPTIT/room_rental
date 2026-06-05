@@ -38,18 +38,23 @@ public class HomeController {
     @GetMapping("/")
     public String home(@RequestParam(required = false) String province,
                        @RequestParam(required = false) String priceRange,
+                       @RequestParam(required = false) String areaRange,
                        @RequestParam(required = false) RoomCategory category,
                        @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "6") int size,
                        HttpSession session,
                        Model model) {
-        Page<RoomPost> roomPage = roomPostService.searchPosts(province, priceRange, category, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
+        Page<RoomPost> roomPage = roomPostService.searchPosts(province, priceRange, areaRange, category, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt")));
         model.addAttribute("roomPosts", roomPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", roomPage.getTotalPages());
         model.addAttribute("province", province);
         model.addAttribute("priceRange", priceRange);
+        model.addAttribute("areaRange", areaRange);
         model.addAttribute("category", category);
+
+        List<String> availableProvinces = roomPostService.getAvailableProvinces();
+        model.addAttribute("provinces", availableProvinces);
 
         // Khởi tạo một list rỗng
         List<Long> savedPostIds = new ArrayList<>();

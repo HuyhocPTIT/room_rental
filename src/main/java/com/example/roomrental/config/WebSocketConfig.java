@@ -23,6 +23,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Đăng ký endpoint để client kết nối tới
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws")
+                .addInterceptors(new org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor())
+                .withSockJS();
     }
 }

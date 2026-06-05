@@ -11,11 +11,9 @@
     <form action="/" method="get" class="search-box">
         <select name="province" id="sel-tinh">
             <option value="">📍 Tỉnh / Thành phố</option>
-            <option value="Hà Nội" ${province == 'Hà Nội' ? 'selected' : ''}>Hà Nội</option>
-            <option value="Hồ Chí Minh" ${province == 'Hồ Chí Minh' ? 'selected' : ''}>TP. Hồ Chí Minh</option>
-            <option value="Đà Nẵng" ${province == 'Đà Nẵng' ? 'selected' : ''}>Đà Nẵng</option>
-            <option value="Cần Thơ" ${province == 'Cần Thơ' ? 'selected' : ''}>Cần Thơ</option>
-            <option value="Hải Phòng" ${province == 'Hải Phòng' ? 'selected' : ''}>Hải Phòng</option>
+            <c:forEach var="prov" items="${provinces}">
+                <option value="${prov}" ${province == prov ? 'selected' : ''}>${prov}</option>
+            </c:forEach>
         </select>
 
         <select name="priceRange" id="sel-gia">
@@ -25,6 +23,14 @@
             <option value="3" ${priceRange == '3' ? 'selected' : ''}>2 - 3 triệu</option>
             <option value="4" ${priceRange == '4' ? 'selected' : ''}>3 - 5 triệu</option>
             <option value="5" ${priceRange == '5' ? 'selected' : ''}>Trên 5 triệu</option>
+        </select>
+
+        <select name="areaRange" id="sel-dientich">
+            <option value="">📐 Diện tích</option>
+            <option value="1" ${areaRange == '1' ? 'selected' : ''}>Dưới 20 m²</option>
+            <option value="2" ${areaRange == '2' ? 'selected' : ''}>20 m² - 30 m²</option>
+            <option value="3" ${areaRange == '3' ? 'selected' : ''}>30 m² - 50 m²</option>
+            <option value="4" ${areaRange == '4' ? 'selected' : ''}>Trên 50 m²</option>
         </select>
 
         <select name="category" id="sel-loai">
@@ -49,6 +55,9 @@
         </c:if>
         <c:if test="${not empty priceRange}">
             <c:set var="baseQuery" value="${baseQuery}&priceRange=${priceRange}" />
+        </c:if>
+        <c:if test="${not empty areaRange}">
+            <c:set var="baseQuery" value="${baseQuery}&areaRange=${areaRange}" />
         </c:if>
         
         <a href="/?${not empty baseQuery ? baseQuery.substring(1) : ''}" style="text-decoration: none" class="cat ${empty category ? 'active' : ''}">Tất cả</a>
