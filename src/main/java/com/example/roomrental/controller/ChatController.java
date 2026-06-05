@@ -96,4 +96,19 @@ public class ChatController {
         chatService.markMessagesAsRead(Long.parseLong(senderId), currentUser.getId());
         return ResponseEntity.ok(Map.of("success", true));
     }
+
+    @GetMapping("/api/chat/contacts")
+    @ResponseBody
+    public ResponseEntity<?> getContacts(
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "5") int limit,
+            HttpServletRequest request) {
+        User currentUser = (User) request.getSession().getAttribute("currentUser");
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+        }
+        
+        List<com.example.roomrental.dto.ChatContactDTO> contacts = chatService.getRecentContacts(currentUser.getId(), offset, limit);
+        return ResponseEntity.ok(contacts);
+    }
 }
