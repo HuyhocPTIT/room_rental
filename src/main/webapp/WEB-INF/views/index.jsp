@@ -8,6 +8,16 @@
 <section class="hero">
     <h1>Tìm <span>phòng trọ</span> ưng ý<br>chỉ trong vài giây</h1>
     <p>Hàng nghìn phòng trọ, căn hộ mini tại Việt Nam - cập nhật mỗi ngày</p>
+    <c:if test="${not empty success}">
+        <div style="max-width: 780px; margin: 0 auto 18px; padding: 12px 16px; border-radius: 10px; background: #dcfce7; color: #166534; font-weight: 700;">
+            ${success}
+        </div>
+    </c:if>
+    <c:if test="${not empty error}">
+        <div style="max-width: 780px; margin: 0 auto 18px; padding: 12px 16px; border-radius: 10px; background: #fee2e2; color: #991b1b; font-weight: 700;">
+            ${error}
+        </div>
+    </c:if>
     <form action="/" method="get" class="search-box">
         <select name="province" id="sel-tinh">
             <option value="">📍 Tỉnh / Thành phố</option>
@@ -155,8 +165,28 @@
 <div class="cta-banner" id="post-room">
     <h2>Bạn có phòng muốn cho thuê?</h2>
     <p>Đăng tin miễn phí, tiếp cận hàng chục nghìn người thuê tiềm năng mỗi ngày</p>
-    <c:url var="createPostUrl" value="/post-management?action=create"/>
-    <button type="button" onclick="location.href='${createPostUrl}'">Đăng tin ngay - Miễn phí</button>
+    <c:choose>
+        <c:when test="${empty sessionScope.currentUser}">
+            <c:url var="loginUrl" value="/auth/login"/>
+            <button type="button" onclick="location.href='${loginUrl}'">Trở thành người cho thuê</button>
+        </c:when>
+        <c:when test="${sessionScope.currentUser.role == 'LANDLORD'}">
+            <c:url var="createPostUrl" value="/post-management?action=create"/>
+            <button type="button" onclick="location.href='${createPostUrl}'">Đăng tin ngay - Miễn phí</button>
+        </c:when>
+        <c:when test="${sessionScope.currentUser.role == 'TENANT' && sessionScope.currentUser.landlordRequestStatus == 'PENDING'}">
+            <button type="button" disabled style="opacity:.75; cursor:not-allowed;">Yêu cầu đang chờ admin duyệt</button>
+        </c:when>
+        <c:when test="${sessionScope.currentUser.role == 'TENANT'}">
+            <form action="<c:url value='/landlord-request'/>" method="post" style="margin:0;">
+                <button type="submit">Trở thành người cho thuê</button>
+            </form>
+        </c:when>
+        <c:otherwise>
+            <c:url var="adminUrl" value="/admin"/>
+            <button type="button" onclick="location.href='${adminUrl}'">Vào trang quản trị</button>
+        </c:otherwise>
+    </c:choose>
 </div>
 <script>
     function toggleSave(event, postId) {
