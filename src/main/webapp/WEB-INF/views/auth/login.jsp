@@ -38,12 +38,12 @@
                                required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+                    <button type="submit" class="site-btn w-100 justify-content-center">Đăng nhập</button>
                 </form>
 
                 <p class="text-center mt-4 mb-0">
                     Chưa có tài khoản?
-                    <a href="<c:url value='/auth/register'/>">Đăng ký ngay</a>
+                    <a href="<c:url value='/auth/register'/>" class="site-btn site-btn-outline ms-2">Đăng ký ngay</a>
                 </p>
             </div>
         </div>

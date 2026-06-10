@@ -107,6 +107,11 @@ function connectNotificationSocket() {
             receiveRealtimeNotification(JSON.parse(message.body));
         });
 
+        notificationStompClient.subscribe('/topic/notifications/' + CONFIG.currentUserId, function (message) {
+            loadedNotification = false;
+            receiveRealtimeNotification(JSON.parse(message.body));
+        });
+
         notificationStompClient.subscribe('/topic/messages/' + CONFIG.currentUserId, function (messageOutput) {
             const msg = JSON.parse(messageOutput.body);
             showNotificationDot();

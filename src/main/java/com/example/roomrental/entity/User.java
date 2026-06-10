@@ -1,6 +1,7 @@
 package com.example.roomrental.entity;
 
 import com.example.roomrental.constant.UserRole;
+import com.example.roomrental.constant.LandlordRequestStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Enumerated(EnumType.STRING)
+    private LandlordRequestStatus landlordRequestStatus = LandlordRequestStatus.NONE;
 
     private LocalDateTime createdAt;
 
