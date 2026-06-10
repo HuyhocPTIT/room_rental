@@ -50,7 +50,9 @@ public class PostController {
             return "redirect:/auth/login";
         }
 
-        if (!UserRole.LANDLORD.equals(currentUser.getRole())) {
+        if (UserRole.TENANT.equals(currentUser.getRole())) {
+            return "redirect:/profile/upgrade-landlord";
+        } else if (!UserRole.LANDLORD.equals(currentUser.getRole())) {
             return "redirect:/?error=no_permission";
         }
 
