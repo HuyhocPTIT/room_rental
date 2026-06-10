@@ -93,9 +93,6 @@
                 <div class="stat-box">
                     <div><div class="stat-val">${stats.totalFavorites}</div><div class="stat-lbl">Lượt yêu thích</div></div>
                 </div>
-                <div class="stat-box">
-                    <div><div class="stat-val">${stats.totalMessages}</div><div class="stat-lbl">Tin nhắn</div></div>
-                </div>
             </div>
 
             <div class="hl-row">
