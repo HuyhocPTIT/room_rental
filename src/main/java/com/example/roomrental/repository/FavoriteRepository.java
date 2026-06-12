@@ -14,4 +14,5 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Favorite> findAllByUserIdOrderByCreatedAtDesc(Long userId);
     Optional<Favorite> findByUserAndRoomPost(User user, RoomPost roomPost);
     List<Favorite> findByUser(User user);
+    long countByRoomPost(RoomPost roomPost);
 }

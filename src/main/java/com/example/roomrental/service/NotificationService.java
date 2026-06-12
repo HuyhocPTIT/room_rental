@@ -65,6 +65,11 @@ public class NotificationService {
                 "/queue/notifications",
                 response
         );
+
+        messagingTemplate.convertAndSend(
+                "/topic/notifications/" + receiver.getId(),
+                response
+        );
     }
 
     public void markAsRead(Long id) {

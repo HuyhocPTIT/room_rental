@@ -79,13 +79,13 @@
                     </div>
 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+                        <button type="submit" class="site-btn w-100 justify-content-center">Đăng ký</button>
                     </div>
                 </form>
 
                 <p class="text-center mt-4 mb-0">
                     Đã có tài khoản?
-                    <a href="<c:url value='/auth/login'/>">Đăng nhập</a>
+                    <a href="<c:url value='/auth/login'/>" class="site-btn site-btn-outline ms-2">Đăng nhập</a>
                 </p>
             </div>
         </div>

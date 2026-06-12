@@ -1,5 +1,6 @@
 package com.example.roomrental.controller;
 
+import com.example.roomrental.constant.LandlordRequestStatus;
 import com.example.roomrental.constant.NotificationType;
 import com.example.roomrental.constant.SessionAttribute;
 import com.example.roomrental.constant.UserRole;
@@ -98,6 +99,10 @@ public class ProfileController {
                     .build();
             notificationRepository.save(notification);
         }
+
+        currentUser.setLandlordRequestStatus(LandlordRequestStatus.PENDING);
+        userRepository.save(currentUser);
+        session.setAttribute(SessionAttribute.CURRENT_USER, currentUser);
 
         ra.addFlashAttribute("success", "Yêu cầu của bạn đã được gửi thành công. Vui lòng chờ Admin phê duyệt!");
         return "redirect:/profile";
