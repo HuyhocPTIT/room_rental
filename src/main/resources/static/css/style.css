@@ -809,3 +809,61 @@ body {
 #notification-items li:last-child .dropdown-item {
     border-bottom: none;
 }
+
+/* ── No Results Found ───────────────────────────────────────────── */
+.no-results-container {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    background: #ffffff;
+    border: 1px dashed #e2e8f0;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    margin: 20px auto;
+    max-width: 680px;
+    width: 100%;
+}
+
+.no-results-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: #fff5f0;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    color: #e35d2b;
+}
+
+.no-results-icon-wrapper svg {
+    width: 40px;
+    height: 40px;
+}
+
+.no-results-container h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 10px 0;
+}
+
+.no-results-container p {
+    font-size: 14px;
+    color: #64748b;
+    max-width: 440px;
+    line-height: 1.6;
+    margin: 0 0 24px 0;
+}
+
+.no-results-container .site-btn-outline {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+}
