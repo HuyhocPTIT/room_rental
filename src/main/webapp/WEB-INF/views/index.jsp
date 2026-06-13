@@ -77,58 +77,77 @@
         <a href="/?category=WHOLE_HOUSE${baseQuery}" style="text-decoration: none" class="cat ${category == 'WHOLE_HOUSE' ? 'active' : ''}">Nhà nguyên căn</a>
     </div>
     <div class="cards" id="cards">
-        <c:forEach var="post" items="${roomPosts}">
+        <c:choose>
+            <c:when test="${empty roomPosts}">
+                <div class="no-results-container">
+                    <div class="no-results-icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3>Không tìm thấy phòng phù hợp</h3>
+                    <p>Hện tại không có phòng theo yêu cầu của bạn. Bạn hãy quay lại sau nhé!</p>
+                    <c:if test="${not empty province || not empty priceRange || not empty areaRange || not empty category}">
+                        <a href="/" class="site-btn site-btn-outline">Thiết lập lại bộ lọc</a>
+                    </c:if>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="post" items="${roomPosts}">
 
-            <c:choose>
-                <c:when test="${post.category == 'APARTMENT'}"><c:set var="catCode" value="chungcu" /></c:when>
-                <c:when test="${post.category == 'MINI_APARTMENT'}"><c:set var="catCode" value="mini" /></c:when>
-                <c:when test="${post.category == 'WHOLE_HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
-                <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
-            </c:choose>
-
-            <div class="card room-card" data-category="${catCode}" onclick="location.href='/room/${post.id}'" style="cursor: pointer;">
-
-                <div class="card-img" style="position: relative; overflow: hidden; background-color: #f8f9fa;">
                     <c:choose>
-                        <c:when test="${not empty post.roomImages}">
-                            <img src="${post.roomImages[0].imageUrl}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;">
-                        </c:when>
-                        <c:otherwise>
-                            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #adb5bd;">
-                                NO IMAGE
-                            </div>
-                        </c:otherwise>
+                        <c:when test="${post.category == 'APARTMENT'}"><c:set var="catCode" value="chungcu" /></c:when>
+                        <c:when test="${post.category == 'MINI_APARTMENT'}"><c:set var="catCode" value="mini" /></c:when>
+                        <c:when test="${post.category == 'WHOLE_HOUSE'}"><c:set var="catCode" value="nguyen" /></c:when>
+                        <c:otherwise><c:set var="catCode" value="phongtro" /></c:otherwise>
                     </c:choose>
-                    <button class="save-btn ${savedPostIds.contains(post.id) ? 'saved' : ''}" type="button" onclick="toggleSave(event, '${post.id}')" title="Lưu phòng">
-                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;height:24px;width:24px;stroke-width:2;overflow:visible;"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path></svg>
-                    </button>
-                </div>
 
-                <div class="card-body">
-                    <div class="card-title">${post.title}</div>
+                    <div class="card room-card" data-category="${catCode}" onclick="location.href='/room/${post.id}'" style="cursor: pointer;">
 
-                    <div class="card-addr">${post.address}</div>
-
-                    <div class="card-row">
-                        <div class="card-price">
-                            <fmt:formatNumber value="${post.price}" type="number" groupingUsed="true"/> đ/tháng
-                        </div>
-                        <div class="card-tag">
+                        <div class="card-img" style="position: relative; overflow: hidden; background-color: #f8f9fa;">
                             <c:choose>
-                                <c:when test="${post.category == 'APARTMENT'}">Chung cư</c:when>
-                                <c:when test="${post.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
-                                <c:when test="${post.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
-                                <c:otherwise>Phòng trọ</c:otherwise>
+                                <c:when test="${not empty post.roomImages}">
+                                    <img src="${post.roomImages[0].imageUrl}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover;">
+                                </c:when>
+                                <c:otherwise>
+                                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #adb5bd;">
+                                        NO IMAGE
+                                    </div>
+                                </c:otherwise>
                             </c:choose>
+                            <button class="save-btn ${savedPostIds.contains(post.id) ? 'saved' : ''}" type="button" onclick="toggleSave(event, '${post.id}')" title="Lưu phòng">
+                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="display:block;height:24px;width:24px;stroke-width:2;overflow:visible;"><path d="m16 28c7-4.733 14-10 14-17 0-1.792-.683-3.583-2.05-4.95-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05l-2.051 2.051-2.05-2.051c-1.367-1.366-3.158-2.05-4.95-2.05-1.791 0-3.583.684-4.949 2.05-1.367 1.367-2.051 3.158-2.051 4.95 0 7 7 12.267 14 17z"></path></svg>
+                            </button>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="card-title">${post.title}</div>
+
+                            <div class="card-addr">${post.address}</div>
+
+                            <div class="card-row">
+                                <div class="card-price">
+                                    <fmt:formatNumber value="${post.price}" type="number" groupingUsed="true"/> đ/tháng
+                                </div>
+                                <div class="card-tag">
+                                    <c:choose>
+                                        <c:when test="${post.category == 'APARTMENT'}">Chung cư</c:when>
+                                        <c:when test="${post.category == 'MINI_APARTMENT'}">Căn hộ mini</c:when>
+                                        <c:when test="${post.category == 'WHOLE_HOUSE'}">Nguyên căn</c:when>
+                                        <c:otherwise>Phòng trọ</c:otherwise>
+                                    </c:choose>
+                                </div>
+                            </div>
+
+                            <div class="card-meta">
+                                <span class="badge">📐 ${post.area} m²</span>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="card-meta">
-                        <span class="badge">📐 ${post.area} m²</span>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
+                </c:forEach>
+            </c:otherwise>
+        </c:choose>
     </div>
 
     <c:if test="${totalPages > 1}">
